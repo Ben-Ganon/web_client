@@ -1,4 +1,5 @@
 
+import React from "react";
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -6,10 +7,9 @@ class Login extends React.Component {
         console.log(this.state.userPass);
         this.checkLogin = this.checkLogin.bind(this);
     }
-    checkLogin(password) {
-       password = document.getElementById("password").value;
-       username = document.getElementById("username").value;
-
+    checkLogin() {
+       let password = document.getElementById("password").value;
+       let username = document.getElementById("username").value;
     }
     render(){
     return (

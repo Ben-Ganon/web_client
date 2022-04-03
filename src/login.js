@@ -7,7 +7,9 @@ class Login extends React.Component {
         this.checkLogin = this.checkLogin.bind(this);
     }
     checkLogin(password) {
-       password = document.getElementById;
+       password = document.getElementById("password").value;
+       username = document.getElementById("username").value;
+
     }
     render(){
     return (
@@ -22,11 +24,10 @@ class Login extends React.Component {
                 <input type="text" placeholder="your password here" id="password" /> <br></br> <br></br>
                 <input type="button" value="Login" onClick={this.checkLogin}/><br></br>
             </form>
-            <div>
-                <link href="https://www.google.com/" value="  not registered?  " />
-            </div>
+
         </body>
     );
+}
 }
 
 export default Login;

@@ -3,9 +3,14 @@ import Landing from "./Landing.js";
 import React from "react";
 
 class Login extends React.Component {
-
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.state = {userPass : props.userPass};
+        console.log(this.state.userPass);
+        this.checkLogin = this.checkLogin.bind(this);
+    }
+    checkLogin(password) {
+       password = document.getElementById;
     }
     render(){
     return (
@@ -18,7 +23,7 @@ class Login extends React.Component {
                 <input type="text" placeholder="your username here" id="username"></input>  <br />
                 <label for="psswd">Password: </label>
                 <input type="text" placeholder="your password here" id="password" /> <br></br> <br></br>
-                <input type="button" value="     go     " onclick="window.location.href= 'https://www.google.com/';" /><br></br>
+                <input type="button" value="Login" onClick={this.checkLogin}/><br></br>
             </form>
         </body>
     );

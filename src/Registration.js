@@ -84,15 +84,16 @@ class Registration extends React.Component {
                 return false
             }
             if (user.value.length >= 20) {
-                alert('Username has to be at least than 3 letters')
+                alert('Username has to be at most than 20 letters')
                 return false
             }
+            return true
         }
         register() {
             var Username = document.getElementById("username_user")
             var PassWord = document.getElementById("password_user")
             var Display = document.getElementById("display")
-            let valid = this.CheckPassword(PassWord)
+            let valid = this.CheckPassword(PassWord) && this.CheckUserName(Username)
             // if (valid){
             //     this.togglePage()
             // }

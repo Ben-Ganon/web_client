@@ -13,7 +13,7 @@ class App extends React.Component {
       const userPass = new Map();
       userPass.set("Ben", "1234");
       userPass.set("Sagiv", "1111");
-      this.state = {userPass};
+      this.state = {users : userPass};
       this.togglePage = this.togglePage.bind(this);
   }
 
@@ -27,7 +27,7 @@ class App extends React.Component {
     let current;
     let button;
     if (isLogin) {
-      current = <Login/>;
+      current = <Login userPass = {this.state.users}/>;
       button = <button onClick={this.togglePage}> Not Registered? </button>;
     } else {
       current = <Registration/>;

@@ -3,9 +3,9 @@ import App from "./App";
 
 
 class Login extends React.Component {
-    constructor() {
-        super();
-        this.state = { userPass: App.state.userPass };
+    constructor(props) {
+        super(props);
+        this.state = { userPass: props.userPass };
         console.log(this.state.userPass);
         this.checkLogin = this.checkLogin.bind(this);
     }

@@ -6,12 +6,15 @@ import React from "react";
 class Registration extends React.Component {
     constructor() {
         super();
+        this.CheckPassword = this.CheckPassword.bind(this);
+        this.register = this.register.bind(this);
     }
+
     render() {
         return (
             <div>
                 <h1>
-                Welcome to FreakNet!
+                    Welcome to FreakNet!
                 </h1>
                 <head>
                     <meta charset="utf-8" />
@@ -36,22 +39,63 @@ class Registration extends React.Component {
                         <label>Password</label>
                         <input id="password_user" form="password" placeholder="Enter your password" required />
                         <br />
-                        <label>Display name</label>
+                        <label>Your Freaky Name</label>
                         <input id="display" form="text" placeholder="Enter your full name" required />
                         <br />
-                        <input type="button" onclick="register()" value="Register" />
+                        <button onClick={this.register}>Register</button>
                         <br />
-                        
+
                     </div>
-                    
-                    <script src="./Login"></script>
                 </body>
             </div>
         );
-    }
 
+
+    }
+    
+    
+        //checks valid password
+        CheckPassword(pass) {
+            console.log("got into the check")
+            var lowerCaseLetters = /[a-z]/g;
+            var upperCaseLetters = /[A-Z]/g;
+            var numbers = /[0-9]/g;
+            //checks password has to have at least 8 characters and at most 16 characters
+            if (pass.value.length <= 8) {
+                alert('password has to have at least 8 characters')
+                return false
+            }
+            if (pass.value.length >= 16) {
+                alert('password has to have at most 16 characters')
+                return false
+            }
+            //checks if only lower case
+            if (!(pass.value.match((lowerCaseLetters)) && (pass.value.match(upperCaseLetters)) && (pass.value.match(numbers)))) {
+                alert('password has to contain lower+upper case letters and numbers')
+                return false;
+            }
+            alert('GREAT JOB YOUNG MIDORIA!')
+            return true
+        }
+    
+        register() {
+            var Username = document.getElementById("username_user")
+            var PassWord = document.getElementById("password_user")
+            var Display = document.getElementById("display")
+            let valid = this.CheckPassword(PassWord)
+        }
+        hey(){
+            alert('1111');
+            console.log("hello");
+        }
 
 
 }
 
 export default Registration;
+
+
+
+
+
+

@@ -1,4 +1,5 @@
 import Login from "./Login";
+import App from "./App.js";
 import Landing from "./Landing.js";
 import React from "react";
 
@@ -77,12 +78,24 @@ class Registration extends React.Component {
             alert('GREAT JOB YOUNG MIDORIA!')
             return true
         }
-    
+        CheckUserName(user){
+            if (user.value.length <= 3) {
+                alert('Username has to be at least than 3 letters')
+                return false
+            }
+            if (user.value.length >= 20) {
+                alert('Username has to be at least than 3 letters')
+                return false
+            }
+        }
         register() {
             var Username = document.getElementById("username_user")
             var PassWord = document.getElementById("password_user")
             var Display = document.getElementById("display")
             let valid = this.CheckPassword(PassWord)
+            // if (valid){
+            //     this.togglePage()
+            // }
         }
         hey(){
             alert('1111');

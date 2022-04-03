@@ -7,7 +7,7 @@ class Login extends React.Component {
         this.checkLogin = this.checkLogin.bind(this);
     }
     checkLogin(password) {
-       password = document.getElementById;
+       password = document.getElementById("password").value;
     }
     render(){
     return (

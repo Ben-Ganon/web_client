@@ -15,28 +15,19 @@ class App extends React.Component {
       userPass.set("Sagiv", "1111");
       this.state = {userPass};
       this.togglePage = this.togglePage.bind(this);
-      this.getPage = this.getPage.bind(this);
   }
 
   togglePage() {
     this.setState(prevState => ({loginActive: !prevState.loginActive}));
     console.log("switched!");
   }
-  getPage(props) {
-    if (props.pageLogin) {
-      return <Login/>;
-    } else {
-      return <Registration/>
-    }
-  }
-
 
   render() {
     const isLogin = this.state.loginActive;
     let current;
     let button;
     if (isLogin) {
-      current = <Login userPass = {this.state.userPass}/>;
+      current = <Login/>;
       button = <button onClick={this.togglePage}> Not Registered? </button>;
     } else {
       current = <Registration/>;

@@ -1,6 +1,3 @@
-import Registration from "./Registration";
-import Landing from "./Landing.js"; 
-import React from "react";
 
 class Login extends React.Component {
     constructor(props) {
@@ -25,9 +22,11 @@ class Login extends React.Component {
                 <input type="text" placeholder="your password here" id="password" /> <br></br> <br></br>
                 <input type="button" value="Login" onClick={this.checkLogin}/><br></br>
             </form>
+            <div>
+                <link href="https://www.google.com/" value="  not registered?  " />
+            </div>
         </body>
     );
-    }
 }
 
 export default Login;

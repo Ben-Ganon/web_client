@@ -6,21 +6,14 @@ import Landing from './Landing';
 import React, { useState } from 'react';
 
 
-// function App {
-//   const pageLog = useState(loginActive)
-//     return (
-//       <div>
-//         <this.getPage pageLogin = {this.loginActive}/> <br/>
-//         <button onClick={this.togglePage}> switch </button>
-//       </div>
-      
-//     );
-// }
-
 class App extends React.Component {
   constructor() {
       super();
       this.state = {loginActive: true};
+      const userPass = new Map();
+      userPass.set("Ben", "1234");
+      userPass.set("Sagiv", "1111");
+      this.state = {userPass};
       this.togglePage = this.togglePage.bind(this);
       this.getPage = this.getPage.bind(this);
   }
@@ -36,19 +29,24 @@ class App extends React.Component {
       return <Registration/>
     }
   }
+
+
   render() {
     const isLogin = this.state.loginActive;
     let current;
+    let button;
     if (isLogin) {
-      current = <Login/>;
+      current = <Login userPass = {this.state.userPass}/>;
+      button = <button onClick={this.togglePage}> Not Registered? </button>;
     } else {
       current = <Registration/>;
+      button = <button onClick={this.togglePage}> Back To Login </button>;
     }
     return (
       <div>
         {current} 
         <br/>
-        <button onClick={this.togglePage}> Not Registered? </button>
+        {button}
       </div>
       
     );

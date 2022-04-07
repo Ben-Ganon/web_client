@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Login from "./Login";
 import Home from './Home';
+import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
@@ -11,9 +12,17 @@ import {
   Outlet
 } from "react-router-dom";
 import Registration from './Registration';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 export default function App() {
+  <script
+  src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
+  crossorigin>
+
+  </script>
+
   return (
     <Router>
       <div>

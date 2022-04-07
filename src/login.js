@@ -1,5 +1,6 @@
 import React from "react";
 import App from "./App";
+import {Link} from "react-router-dom";
 
 
 class Login extends React.Component {
@@ -29,9 +30,9 @@ class Login extends React.Component {
                     <input type="text" placeholder="your username here" id="username"></input>  <br />
                     <label for="psswd">Password: </label>
                     <input type="text" placeholder="your password here" id="password" /> <br></br> <br></br>
-                    <input type="submit" value="Login"/><br></br>
+                    <input type="submit" value="Login" /><br></br>
                 </form>
-
+                <Link to="/Register">Not Registered?</Link>
             </body>
         );
     }

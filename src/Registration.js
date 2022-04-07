@@ -1,6 +1,6 @@
 import Login from "./Login";
-import Landing from "./Landing.js";
 import React from "react";
+import {Link} from "react-router-dom";
 
 
 class Registration extends React.Component {
@@ -44,7 +44,7 @@ class Registration extends React.Component {
                         <br />
                         <button onClick={this.register}>Register</button>
                         <br />
-
+                        <Link to="/Login">Back To Login Page</Link>
                     </div>
                 </body>
             </div>

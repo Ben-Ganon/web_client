@@ -13,6 +13,8 @@ import {
 } from "react-router-dom";
 import Registration from './Registration';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ChatBox from './ChatBox';
+import Chat from './Chat';
 
 
 
@@ -20,11 +22,7 @@ export default function App() {
   <script
     src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
     crossorigin>
-
   </script>
-  const userPass = new Map();
-  userPass.set("Ben", "1234");
-  userPass.set("Sagiv", "1111");
   return (
     <Router>
       <div>
@@ -32,6 +30,7 @@ export default function App() {
           <Route path='/' element={<Home />} />
           <Route path='/Register' element={<Registration />} />
           <Route path='/Login' element={<Login />} />
+          <Route path='/Chat' element={<Chat/>}/>
         </Routes>
       </div>
     </Router>

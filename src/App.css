@@ -39,3 +39,10 @@
     transform: rotate(360deg);
   }
 }
+
+.buttonLogin {
+  margin-left: 25%;
+  margin-top: 5%;
+  width: 10rem;
+  margin-bottom: 5%;
+}

@@ -2,6 +2,7 @@
 import './App.css';
 import Login from "./Login";
 import Home from './Home';
+import Chat from './Chat';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import {
@@ -29,6 +30,7 @@ export default function App() {
           <Route path='/' element={<Home />} />
           <Route path='/Register' element={<Registration />} />
           <Route path='/Login' element={<Login />} />
+          <Route path='/Chat' element={<Chat />} />
         </Routes>
       </div>
     </Router>

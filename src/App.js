@@ -22,9 +22,6 @@ export default function App() {
     crossorigin>
 
   </script>
-  const userPass = new Map();
-  userPass.set("Ben", "1234");
-  userPass.set("Sagiv", "1111");
   return (
     <Router>
       <div>

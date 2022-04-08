@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import Users from "./Users";
 import users from "./Users";
-
-import React from "react";
 class Login extends React.Component {
     constructor() {
         super();

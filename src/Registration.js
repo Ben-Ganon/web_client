@@ -1,4 +1,4 @@
-import Login from "./Login";
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
@@ -122,8 +122,8 @@ class Registration extends React.Component {
             return
         }
 
-        
-        users.set(Username.value, PassWord.value);
+        //SHOULD INSERT THE NEW CLIENT INTO THE MAP - BUT NOT REQUIRED
+        // users.set(Username.value, PassWord.value);
         alert("GOOD JOB!")
         window.location.replace('/Login');
     }

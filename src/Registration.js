@@ -52,42 +52,70 @@ class Registration extends React.Component {
 
 
     }
-    
-    
-        //checks valid password
-        CheckPassword(pass) {
-            console.log("got into the check")
-            var lowerCaseLetters = /[a-z]/g;
-            var upperCaseLetters = /[A-Z]/g;
-            var numbers = /[0-9]/g;
-            //checks password has to have at least 8 characters and at most 16 characters
-            if (pass.value.length <= 8) {
-                alert('password has to have at least 8 characters')
-                return false
-            }
-            if (pass.value.length >= 16) {
-                alert('password has to have at most 16 characters')
-                return false
-            }
-            //checks if only lower case
-            if (!(pass.value.match((lowerCaseLetters)) && (pass.value.match(upperCaseLetters)) && (pass.value.match(numbers)))) {
-                alert('password has to contain lower+upper case letters and numbers')
-                return false;
-            }
-            alert('GREAT JOB YOUNG MIDORIA!')
-            return true
+
+
+    //checks valid password
+    CheckPassword(pass) {
+        console.log("got into the check")
+        var lowerCaseLetters = /[a-z]/g;
+        var upperCaseLetters = /[A-Z]/g;
+        var numbers = /[0-9]/g;
+        //checks password has to have at least 8 characters and at most 16 characters
+        if (pass.value.length <= 8) {
+            return 'password has to have at least 8 characters'
         }
-    
-        register() {
-            var Username = document.getElementById("username_user")
-            var PassWord = document.getElementById("password_user")
-            var Display = document.getElementById("display")
-            let valid = this.CheckPassword(PassWord)
+        if (pass.value.length >= 16) {
+            return 'password has to have at most 16 characters'
         }
-        hey(){
-            alert('1111');
-            console.log("hello");
+        //checks if only lower case
+        if (!(pass.value.match((lowerCaseLetters)) && (pass.value.match(upperCaseLetters)) && (pass.value.match(numbers)))) {
+            return 'password has to contain lower+upper case letters and numbers'
         }
+        return true
+    }
+
+    //checks valid UserName or FullNAme
+    CheckUserName(user) {
+        if (user.value.length <= 3) {
+            return 'Username has to be at least than 3 letters'
+        }
+        if (user.value.length >= 20) {
+            return 'Username has to be at most than 20 letters'
+        }
+        return true
+    }
+
+    //main register function
+    register() {
+        var Username = document.getElementById("username_user")
+        var PassWord = document.getElementById("password_user")
+        var fullName = document.getElementById("display")
+        let validPass = this.CheckPassword(PassWord)
+        let validUsername = this.CheckUserName(Username)
+        let validFullName = this.CheckUserName(fullName)
+        if (validUsername != true) {
+            alert(validUsername)
+            return
+        }
+        if (validPass != true) {
+            alert(validPass)
+            return
+        }
+        if (validFullName != true) {
+            alert(validFullName)
+            return
+        }
+        alert("GOOD JOB!")
+        //CHECK IF USER-NAME ALREADY EXIST
+
+        //INSERT INTO MAP
+        // console.log(Username);
+        // super.userPass.set(Username.value, PassWord.value);
+        // console.log(Username);
+
+        //ALSO DIRECT TO LOGIN PAGE
+        App.togglePage()
+    }
 
 
 }

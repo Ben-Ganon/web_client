@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import App, { buttonLogin } from "./App";
+import App, { buttonLogin } from "../App";
 import { Link } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
-import users from "./Users";
+import users from "../Users";
 class Login extends React.Component {
     constructor() {
         super();

@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
-import users from "./Users";
+import users from "../Users";
 class Registration extends React.Component {
     constructor() {
         super();

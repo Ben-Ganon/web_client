@@ -1,8 +1,9 @@
 
-import './App.css';
-import Login from "./Login";
-import Home from './Home';
-import Chat from './Chat';
+import "../App.css"
+import Login from "./Registration+Login/Login";
+import Home from './Registration+Login/Home';
+import Registration from './Registration+Login/Registration';
+import Chat from './Chat/Chat';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import {
@@ -12,7 +13,7 @@ import {
   Link,
   Outlet
 } from "react-router-dom";
-import Registration from './Registration';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 

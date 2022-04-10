@@ -1,5 +1,9 @@
 
 
-export default function ChatBox() {
-    return 
+export default function ChatBox(props) {
+    return (
+        <div>
+            {props.messArray}
+        </div>
+    );
 }

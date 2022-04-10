@@ -15,8 +15,8 @@ class ChatLeftMessageProfile extends React.Component {
 
     render() {
         return (
-            <Card style={{background:"#99e6ff", height: "90%", border: '2px solid #b3d9ff'}}>
-              <div class="d-flex w-100 justify-content-between" style={{background: "#99ccff", height: "90%"}}>
+            <Card style={{background:"#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative"}} onClick={()=>{return(alert("hello"));}}>
+              <div class="d-flex w-100 justify-content-between" style={{background: "#99ccff", height: "100%",position: "relative"}}>
               <span><img class="profile-image" src={this.img} alt=""/>
                 </span>
                 <h5>{this.username}</h5>

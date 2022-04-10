@@ -16,7 +16,7 @@ class Chat extends React.Component {
     }
     render() {
         return (
-            <div class="Container" style={{background: "pink", height: "90%"}}>
+            <div class="container" style={{background: "pink", height: "100%" , width: "100%"}}>
             <div class="row no-gutters" style={{background: "#66b3ff", height: "70%"}}>
               <div class="col-md-4 border-right" style={{background: "blue", height: "80%"}}>
                 <div class="settings-tray">
@@ -32,14 +32,15 @@ class Chat extends React.Component {
                     <input placeholder="Search here" type="text"/>
                   </div>
                 </div>
-                <div style={{ overflowY:"scroll", background: "black", color: "white" ,height:"50%"}}>
+                <div style={{ overflowY:"scroll", background: "black", color: "white" ,height:"55%",width:"25%", position: "absolute"}}>
                 <ChatLeftMessageProfile img={Nick} username={"Ben Ganon"} lastMassage={"sup?"} time={"13:45"}/>
                 <ChatLeftMessageProfile img={p1} username={"Sagiv Antebi"} lastMassage={"yo?"} time={"12:10"}/>
                 <ChatLeftMessageProfile img={p2} username={"Sahar Rofe"} lastMassage={"how are you dion?"} time={"11:45"}/>
                 <ChatLeftMessageProfile img={p3} username={"Omri Ben Hemo"} lastMassage={"fu!"} time={"10:55"}/>
                 <ChatLeftMessageProfile img={p4} username={"Uri Greitzer "} lastMassage={"sup?"} time={"10:45"}/>
-                <ChatLeftMessageProfile img={p1} username={"Sagiv Ante"} lastMassage={"sup?"} time={"9:45"}/>
+                <ChatLeftMessageProfile img={Nick} username={"Sagiv Ante"} lastMassage={"sup?"} time={"9:45"}/>
                 <ChatLeftMessageProfile img={p2} username={"Sahar Rofe"} lastMassage={"sup?"} time={"8:20"}/>
+                
               </div>
               </div>
               <div class="col-md-8">

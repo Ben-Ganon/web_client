@@ -18,7 +18,7 @@ import users from "../Users";
 
 export default function Chat() {
   const [currChat, setCurrChat] = useState(0);
-  const [chatList, setChatList] = useState(contacts);
+  const [chatListLeft, setChatListLeft] = useState(contacts);
   const [chat, setChat] = useState(contacts.at(currChat));
   const [val, setVal] = useState();
   const [userExist, setUserExist] = useState(false)
@@ -27,10 +27,14 @@ export default function Chat() {
   const [show, setShow] = useState(false)
   const handleShow = () => setShow(true)
   const handleClose = () => { setShow(false); userIsExist() }
-  const addContact = () => {
+  const addContactChat = () => {
     let username = (document.getElementById("usernameAdd"));
     if (users.has(username.value)) {
       setShow(false)
+      let hisHistory  = []
+      let newChatWithContact = {name: username.value, img: p1, time: "13:53",last: "i am sahar", messageHistory: hisHistory};
+      let newContact = [...contacts, newChatWithContact];
+      setChatListLeft(newContact)
       userIsExist()
     }
     else {
@@ -58,7 +62,7 @@ export default function Chat() {
               </div>
             </div>
             <div style={{ overflowY: "scroll", background: "black", color: "white", height: "55%", width: "100%", position: "relative" }}>
-              <div>{ChatListLeft(chatList)}</div>
+              <div>{ChatListLeft(chatListLeft)}</div>
             </div>
           </div>
           <div class="col-md-8">
@@ -105,7 +109,7 @@ export default function Chat() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={handleClose}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={addContact}>Save changes</button>
+              <button type="button" className="btn btn-primary" onClick={addContactChat}>Start Chat</button>
             </div>
           </div>
         </Modal>

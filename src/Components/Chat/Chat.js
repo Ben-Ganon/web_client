@@ -79,7 +79,7 @@ export default function Chat() {
                   </div>
                 </div>
               </div>
-            </div>2
+            </div>
           </div>
         </div>
       </div>

@@ -6,9 +6,9 @@ import contacts from "./contacts";
 import Chat from "./Chat";
 import ChatBox from "./ChatBox";
 
- function ChatLeftMessageProfile(chat, setChat) {
+ function ChatLeftMessageProfile(chat) {
   return (
-    <Card onClick={()=> (setChat(chat.hist))} style={{ background: "#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative" }}>
+    <Card onClick={()=> (chat.setChat(chat.hist))} style={{ background: "#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative" }}>
       <div class="d-flex w-100 justify-content-between" style={{ background: "#99ccff", height: "100%", position: "relative" }}>
         <span><img class="profile-image" src={chat.img} alt="" />
         </span>

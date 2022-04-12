@@ -2,11 +2,13 @@
 import React from "react";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import Nick from '../images/nick.png';
+import contacts from "./contacts";
+import Chat from "./Chat";
+import ChatBox from "./ChatBox";
 
-
-export default function ChatLeftMessageProfile(chat) {
+ function ChatLeftMessageProfile(chat, setChat) {
   return (
-    <Card style={{ background: "#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative" }} onClick={() => { return (alert("hello")); }}>
+    <Card onClick={()=> (setChat(chat.hist))} style={{ background: "#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative" }}>
       <div class="d-flex w-100 justify-content-between" style={{ background: "#99ccff", height: "100%", position: "relative" }}>
         <span><img class="profile-image" src={chat.img} alt="" />
         </span>
@@ -17,6 +19,14 @@ export default function ChatLeftMessageProfile(chat) {
     </Card>
   );
 
+}
+
+const renderChat = (name) => {
+  return (
+    <div>{ChatBox(contacts.find((element)=>{
+      return element.name === name;
+    }))}</div>
+  );
 }
 
 
@@ -50,7 +60,7 @@ export default function ChatLeftMessageProfile(chat) {
 
 
 
-
+export default ChatLeftMessageProfile;
 
 
 

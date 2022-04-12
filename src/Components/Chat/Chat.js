@@ -17,7 +17,8 @@ import users from "../Users";
 
 
 export default function Chat() {
-  const [currChat, setCurrChat] = useState(0);
+  let defaultBox = [{side:"right", text:""}];
+  const [currChat, setCurrChat] = useState(defaultBox);
   const [chatListLeft, setChatListLeft] = useState(contacts);
   const [chat, setChat] = useState(contacts.at(currChat));
   const [input, setInput] = useState();
@@ -62,14 +63,16 @@ export default function Chat() {
               </div>
             </div>
             <div style={{ overflowY: "scroll", background: "black", color: "white", height: "55%", width: "100%", position: "relative" }}>
-              <div>{ChatListLeft(chatListLeft)}</div>
+              <div>
+              {ChatListLeft(chatListLeft, setCurrChat)}
+              </div>
             </div>
           </div>
           <div class="col-md-8">
               <ChatBar nickname={"yyy"} />
               <div className="chat-panel">
 
-                <div>{ChatBox(chat.messageHistory)}</div>
+                <div>{ChatBox(currChat)}</div>
 
                 <div class="row">
                   <div class="col-12">

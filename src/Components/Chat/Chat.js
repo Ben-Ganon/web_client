@@ -20,6 +20,8 @@ export default function Chat() {
   const [currChat, setCurrChat] = useState(0);
   const [chatListLeft, setChatListLeft] = useState(contacts);
   const [chat, setChat] = useState(contacts.at(currChat));
+  const [errorType1, setErrorType1] = useState(false);
+  const [errorType2, setErrorType2] = useState(false);
   const [input, setInput] = useState();
   const [userExist, setUserExist] = useState(false)
   const userIsNotExist = () => setUserExist(true)
@@ -27,19 +29,46 @@ export default function Chat() {
   const [show, setShow] = useState(false)
   const handleShow = () => setShow(true)
   const handleClose = () => { setShow(false); userIsExist() }
+
+  const checkUserExists = (name) => {
+    return chatListLeft.find((el)=> {
+      return el.name === name;
+    }); 
+  }
   const addContactChat = () => {
     let username = (document.getElementById("usernameAdd"));
+    //cheks if we already have a chat with this contact
+    console.log(username.value);
+
+    if(checkUserExists(username.value))
+    { 
+      console.log("hot here\n");
+      setErrorType2(false)
+      setErrorType1(true)
+      userIsNotExist()
+      return null;
+    }
+  
     if (users.has(username.value)) {
+      console.log(" offfffffffffff\n");
       setShow(false)
-      let hisHistory  = []
-      let newChatWithContact = {name: username.value, img: p1, time: "13:53",last: "i am sahar", messageHistory: hisHistory};
-      let newContact = [...contacts, newChatWithContact];
-      setChatListLeft(newContact)
+      let hisHistory = []
+      var today = new Date();
+      let newChatWithContact = { name:  username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1)};
+      let newContact = [...chatListLeft, newChatWithContact];
       userIsExist()
+      setErrorType1(false)
+      setErrorType2(false)
+      return newContact
+
     }
     else {
+      setErrorType1(false)
+      setErrorType2(true)
       userIsNotExist()
+      return null;
     }
+
     //need to enter the function to add the person 
   }
 
@@ -66,82 +95,92 @@ export default function Chat() {
             </div>
           </div>
           <div class="col-md-8">
-              <ChatBar nickname={"yyy"} />
-              <div className="chat-panel">
+            <ChatBar nickname={"yyy"} />
+            <div className="chat-panel">
 
-                <div>{ChatBox(chat.messageHistory)}</div>
+              <div>{ChatBox(chat.messageHistory)}</div>
 
-                <div class="row">
-                  <div class="col-12">
-                    <div class="chat-box-tray">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
-                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-                      </svg>
-                      <form>
-                      <input id="chatIn" defaultValue=""  type="text" placeholder="Type your message here..."/>
+              <div class="row">
+                <div class="col-12">
+                  <div class="chat-box-tray">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                      <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+                    </svg>
+                    <form>
+                      <input id="chatIn" defaultValue="" type="text" placeholder="Type your message here..." />
                       <i class="material-icons">mic</i>
                       <Button type="button" onClick={() => {
                         let newChat = sendMessage(chat);
                         setChat(newChat);
                         document.getElementById("chatIn").value = '';
                       }}>send</Button>
-                      </form>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-              </div>
-              </div>
-               <Modal show={show}>
-          <div className="container">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">Add New Contact</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
-            </div>
-            <div className="modal-body">
-              <div className="mb-3">
-                <Form.Control id="usernameAdd" type="usernameAdd" placeholder="Enter Username"></Form.Control>
-                <div id="emailHelp" className="form-text">Make sure you entered his Username and not his freaky-name</div>
-              </div>
-              <Alert variant="danger" show={userExist}  >
-                <Alert.Heading>There is no user with that name</Alert.Heading>
-              </Alert>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={handleClose}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={addContactChat}>Start Chat</button>
-            </div>
           </div>
-        </Modal>
-          </body>
-          );
+        </div>
+      </div>
+      <Modal show={show}>
+        <div className="container">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">Add New Contact</h5>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
+          </div>
+          <div className="modal-body">
+            <div className="mb-3">
+              <Form.Control id="usernameAdd" type="usernameAdd" placeholder="Enter Username"></Form.Control>
+              <div id="emailHelp" className="form-text">Make sure you entered his Username and not his freaky-name</div>
+            </div>
+            <Alert variant="danger" show={userExist && errorType1}  >
+              <Alert.Heading>You already have chat with this user</Alert.Heading>
+            </Alert>
+            <Alert variant="danger" show={userExist && errorType2}  >
+            <Alert.Heading>There is no user with that name</Alert.Heading>
+          </Alert>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-primary" onClick={()=>{
+              let newContact = addContactChat();
+              if (newContact!=null){
+                setChatListLeft(newContact)
+              }
+            }}>Start Chat</button>
+          </div>
+        </div>
+      </Modal>
+    </body>
+  );
 }
 
 
 
 
 const sendMessage = (chat, input) => {
-            let message = document.getElementById("chatIn").value;
-          let newMessage = {side: "right", text: message };
-          let newChat = {name: chat.name, messageHistory: [...chat.messageHistory, newMessage] };
-          return newChat;
+  let message = document.getElementById("chatIn").value;
+  let newMessage = { side: "right", text: message };
+  let newChat = { name: chat.name, messageHistory: [...chat.messageHistory, newMessage] };
+  return newChat;
 }
 
 
-          function ChatBar(props) {
+function ChatBar(props) {
   return (
-          <div className="settings-tray">
-            <div className="friend-drawer no-gutters friend-drawer--grey">
-              <img className="profile-image" src={p2} alt="" />
-              <div className="text">
-                <h6>{props.nickname}</h6>
-                <p className="text-muted">text</p>
-              </div>
-            </div>
-          </div>
-          );
+    <div className="settings-tray">
+      <div className="friend-drawer no-gutters friend-drawer--grey">
+        <img className="profile-image" src={p2} alt="" />
+        <div className="text">
+          <h6>{props.nickname}</h6>
+          <p className="text-muted">text</p>
+        </div>
+      </div>
+    </div>
+  );
 }
+
+
+
 
 
 

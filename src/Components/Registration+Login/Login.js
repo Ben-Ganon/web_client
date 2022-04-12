@@ -13,7 +13,7 @@ class Login extends React.Component {
     checkLogin() {
         let password = (document.getElementById("formPassword")).value;
         let username = (document.getElementById("formUsername")).value;
-        if (users.has(username) && users.get(username) == password) {
+        if (users.has(username) && users.get(username).at(0) == password) {
             this.setState({ accessSuccess: true });
             setTimeout(() => { window.location.replace('/Chat') }, 500);
         }

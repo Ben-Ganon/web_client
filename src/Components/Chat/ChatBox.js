@@ -1,9 +1,10 @@
+import Message from "./Message";
 
 
-export default function ChatBox(props) {
+export default function ChatBox(history) {
     return (
-        <div>
-            {props.messArray}
+        <div >
+            {history.map((message) => (<span><Message side={message.side} text={message.text}/></span>))}
         </div>
     );
 }

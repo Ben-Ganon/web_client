@@ -4,6 +4,7 @@ class Contact extends React.Component {
     constructor(props) {
         super(props);
         this.state = {name: props.name, mHistory:props.hist};
+        this.addMessage = this.addMessage.bind(this);
     }
 
     render() {

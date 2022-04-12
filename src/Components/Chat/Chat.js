@@ -18,9 +18,9 @@ import users from "../Users";
 
 export default function Chat() {
   let defaultBox = [{side:"right", text:""}];
-  const [currChat, setCurrChat] = useState(defaultBox);
-  const [chatListLeft, setChatListLeft] = useState(contacts);
-  const [chat, setChat] = useState(contacts.at(currChat));
+  const [currChat, setCurrChat] = useState("Sagiv");
+  const [chats, setChats] = useState(contacts);
+  // const [chat, setChat] = useState(contacts.at(0));
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
   const [input, setInput] = useState();
@@ -32,7 +32,7 @@ export default function Chat() {
   const handleClose = () => { setShow(false); userIsExist() }
 
   const checkUserExists = (name) => {
-    return chatListLeft.find((el)=> {
+    return chats.find((el)=> {
       return el.name === name;
     }); 
   }
@@ -56,7 +56,7 @@ export default function Chat() {
       let hisHistory = []
       var today = new Date();
       let newChatWithContact = { name:  username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1)};
-      let newContact = [...chatListLeft, newChatWithContact];
+      let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
       setErrorType2(false)
@@ -93,7 +93,7 @@ export default function Chat() {
             </div>
             <div style={{ overflowY: "scroll", background: "black", color: "white", height: "55%", width: "100%", position: "relative" }}>
               <div>
-              {ChatListLeft(chatListLeft, setCurrChat)}
+              {ChatListLeft(chats, setCurrChat)}
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ export default function Chat() {
               <ChatBar nickname={"yyy"} />
               <div className="chat-panel">
 
-                <div>{ChatBox(currChat)}</div>
+                <div>{ChatBox(chats, currChat)}</div>
 
                 <div class="row">
                   <div class="col-12">
@@ -113,8 +113,8 @@ export default function Chat() {
                       <input id="chatIn" defaultValue=""  type="text" placeholder="Type your message here..."/>
                       <i class="material-icons">mic</i>
                       <Button type="button" onClick={() => {
-                        let newChat = sendMessage(chat);
-                        setChat(newChat);
+                        let newChat = sendMessage(currChat);
+                        setCurrChat(newChat.messageHistory);
                         document.getElementById("chatIn").value = '';
                       }}>send</Button>
                     </form>
@@ -147,7 +147,7 @@ export default function Chat() {
             <button type="button" className="btn btn-primary" onClick={()=>{
               let newContact = addContactChat();
               if (newContact!=null){
-                setChatListLeft(newContact)
+                setChats(newContact)
               }
             }}>Start Chat</button>
           </div>
@@ -160,10 +160,10 @@ export default function Chat() {
 
 
 
-const sendMessage = (chat, input) => {
+const sendMessage = (chat) => {
   let message = document.getElementById("chatIn").value;
   let newMessage = { side: "right", text: message };
-  let newChat = { name: chat.name, messageHistory: [...chat.messageHistory, newMessage] };
+  let newChat = [...chat, newMessage];
   return newChat;
 }
 

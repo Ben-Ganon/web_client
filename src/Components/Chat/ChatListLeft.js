@@ -4,7 +4,6 @@ import p1 from '../images/profile4.jpg';
 
 
 export default function ChatListLeft(chats, setFunc) {
-    console.log(chats);
     return (
         <div>
             {chats.map((chat) => (<ChatLeftMessageProfile 

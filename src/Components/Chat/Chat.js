@@ -17,7 +17,8 @@ import users from "../Users";
 
 
 export default function Chat() {
-  const [currChat, setCurrChat] = useState(0);
+  let defaultBox = [{side:"right", text:""}];
+  const [currChat, setCurrChat] = useState(defaultBox);
   const [chatListLeft, setChatListLeft] = useState(contacts);
   const [chat, setChat] = useState(contacts.at(currChat));
   const [errorType1, setErrorType1] = useState(false);
@@ -91,23 +92,25 @@ export default function Chat() {
               </div>
             </div>
             <div style={{ overflowY: "scroll", background: "black", color: "white", height: "55%", width: "100%", position: "relative" }}>
-              <div>{ChatListLeft(chatListLeft)}</div>
+              <div>
+              {ChatListLeft(chatListLeft, setCurrChat)}
+              </div>
             </div>
           </div>
           <div class="col-md-8">
-            <ChatBar nickname={"yyy"} />
-            <div className="chat-panel">
+              <ChatBar nickname={"yyy"} />
+              <div className="chat-panel">
 
-              <div>{ChatBox(chat.messageHistory)}</div>
+                <div>{ChatBox(currChat)}</div>
 
-              <div class="row">
-                <div class="col-12">
-                  <div class="chat-box-tray">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
-                      <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-                    </svg>
-                    <form>
-                      <input id="chatIn" defaultValue="" type="text" placeholder="Type your message here..." />
+                <div class="row">
+                  <div class="col-12">
+                    <div class="chat-box-tray">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+                      </svg>
+                      <form>
+                      <input id="chatIn" defaultValue=""  type="text" placeholder="Type your message here..."/>
                       <i class="material-icons">mic</i>
                       <Button type="button" onClick={() => {
                         let newChat = sendMessage(chat);

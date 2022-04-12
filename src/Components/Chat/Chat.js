@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nick from '../images/nick.png';
 import p1 from '../images/profile.jpg';
 import p2 from '../images/profile5.png';
@@ -20,7 +20,7 @@ export default function Chat() {
   const [currChat, setCurrChat] = useState(0);
   const [chatList, setChatList] = useState(contacts);
   const [chat, setChat] = useState(contacts.at(currChat));
-  const [val, setVal] = useState();
+  const [input, setInput] = useState();
   const [userExist, setUserExist] = useState(false)
   const userIsNotExist = () => setUserExist(true)
   const userIsExist = () => setUserExist(false)
@@ -73,14 +73,15 @@ export default function Chat() {
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
                         <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
                       </svg>
-                      <input id="chatIn" value={val} type="text" placeholder="Type your message here..." />
+                      <form>
+                      <input id="chatIn" defaultValue=""  type="text" placeholder="Type your message here..."/>
                       <i class="material-icons">mic</i>
-                      <Button onClick={() => {
+                      <Button type="button" onClick={() => {
                         let newChat = sendMessage(chat);
-                        setVal(' ');
                         setChat(newChat);
+                        document.getElementById("chatIn").value = '';
                       }}>send</Button>
-                      
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -114,7 +115,9 @@ export default function Chat() {
 }
 
 
-const sendMessage = (chat) => {
+
+
+const sendMessage = (chat, input) => {
             let message = document.getElementById("chatIn").value;
           let newMessage = {side: "right", text: message };
           let newChat = {name: chat.name, messageHistory: [...chat.messageHistory, newMessage] };

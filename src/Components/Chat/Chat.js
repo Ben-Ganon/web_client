@@ -22,7 +22,6 @@ import users from "../Users";
 
 
 export default function Chat() {
-  let defaultBox = [{ side: "right", text: "" }];
   const [currChat, setCurrChat] = useState(0);
   const [chats, setChats] = useState(contacts);
   const [render, setRender] = useState(false);
@@ -76,7 +75,6 @@ export default function Chat() {
       userIsNotExist()
       return null;
     }
-
     //need to enter the function to add the person 
   }
 
@@ -98,45 +96,46 @@ export default function Chat() {
                 <input placeholder="Search here" type="text" />
               </div>
             </div>
-            <div style={{ overflowY: "scroll", background: "black", color: "white", height: "55%", width: "100%", position: "relative" }}>
+            <div style={{ overflowY: "scroll", background: "black", color: "white", height: "300px", width: "100%", position: "relative" }}>
               <div>
                 {ChatListLeft(chats, setCurrChat)}
               </div>
             </div>
           </div>
-          <div class="col-md-8">
-              <ChatBar nickname={"yyy"} />
-              <div className="chat-panel">
+          <div class="col-md-8" style={{marginBottom: "10px"}}>
+            <ChatBar nickname= {chats.at(currChat).nickname}/>
+            <div className="chat-panel" style={{overflowY: "scroll",overflowX:"-moz-hidden-unscrollable", marginBottom: "5px", height:"250px", position: "relative"}}>
 
-                <div>{ChatBox(currChat)}</div>
-
-                <div class="row">
-                  <div class="col-12">
+              <div>{ChatBox(chats, currChat)}</div>
+              </div>
+              <div class="row">
+                <div class="col-12">
                   <div><span className="App">
-                  { 
-                    showAttach?<button onClick={handleShowAttach}><img src={record} alt='record'  width="16" height="16" fill="currentColor" /></button>:null
-                  }
+                    {
+                      showAttach ? <button onClick={handleShowAttach}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></button> : null
+                    }
                   </span>
-                  <span className="App">
-                  { 
-                    showAttach?<button onClick={handleShowAttach}><img src={video} alt='video'  width="16" height="16" fill="currentColor" /></button>:null
-                  }
-                  </span>
-                  <span className="App">
-                  { 
-                    showAttach?<button onClick={handleShowAttach}><img src={heart} alt='heart'  width="16" height="16" fill="currentColor" /></button>:null
+                    <span className="App">
+                      {
+                        showAttach ? <button onClick={handleShowAttach}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></button> : null
+                      }
+                    </span>
+                    <span className="App">
+                      {
+                        showAttach ? <button onClick={handleShowAttach}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></button> : null
+                      }
+                    </span></div>
+                  <div class="chat-box-tray">
 
-                  }
-                  </span></div>
-                    <div class="chat-box-tray">
-                    
                     <div>
                     </div>
-                      <button onClick={handleShowAttach}><img src={attach} alt='attachment'  width="16" height="16" fill="currentColor" /></button>
-                      <form>
-                      <input id="chatIn" defaultValue=""  type="text" width="70" placeholder="Type your message here..."/>
+                    <button onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></button>
+                    <form>
+                      <input id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
                       <Button type="button" onClick={() => {
+                        
                         let message = sendMessage();
+                        if(message.text != ''){
                         let conts = chats;
                         let newContact = chats.at(currChat);
                         let history = newContact.messageHistory;
@@ -146,13 +145,14 @@ export default function Chat() {
                         setRender(renderHelper);
                         setChats(conts);
                         console.log(conts)
+                        }
                       }
                       }>send</Button>
                     </form>
                   </div>
                 </div>
               </div>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@ const sendMessage = () => {
   return newMessage;
 }
 
-const renderHelper = (prev)=> {
+const renderHelper = (prev) => {
   return !prev;
 }
 

@@ -7,7 +7,7 @@ export default function ChatListLeft(chats, setChat) {
     return (
         <div>
             {chats.map((chat) => (<ChatLeftMessageProfile 
-            num={chat.num} setChat={setChat} img={chat.img} name={chat.name} last={chat.last} 
+            num={chat.num} setChat={setChat} img={chat.img} nickname={chat.nickname} last={chat.last} 
             time={chat.time} hist={chat.messageHistory}/>))}
         </div>
     );

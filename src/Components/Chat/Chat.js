@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Nick from '../images/nick.png';
 import p1 from '../images/profile.jpg';
 import p2 from '../images/profile5.png';
@@ -17,10 +17,10 @@ import users from "../Users";
 
 
 export default function Chat() {
-  let defaultBox = [{side:"right", text:""}];
-  const [currChat, setCurrChat] = useState("Sagiv");
+  let defaultBox = [{ side: "right", text: "" }];
+  const [currChat, setCurrChat] = useState(0);
   const [chats, setChats] = useState(contacts);
-  // const [chat, setChat] = useState(contacts.at(0));
+  const [render, setRender] = useState(false);
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
   const [input, setInput] = useState();
@@ -32,30 +32,29 @@ export default function Chat() {
   const handleClose = () => { setShow(false); userIsExist() }
 
   const checkUserExists = (name) => {
-    return chats.find((el)=> {
+    return chats.find((el) => {
       return el.name === name;
-    }); 
+    });
   }
   const addContactChat = () => {
     let username = (document.getElementById("usernameAdd"));
     //cheks if we already have a chat with this contact
     console.log(username.value);
 
-    if(checkUserExists(username.value))
-    { 
+    if (checkUserExists(username.value)) {
       console.log("hot here\n");
       setErrorType2(false)
       setErrorType1(true)
       userIsNotExist()
       return null;
     }
-  
+
     if (users.has(username.value)) {
       console.log(" offfffffffffff\n");
       setShow(false)
       let hisHistory = []
       var today = new Date();
-      let newChatWithContact = { name:  username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1)};
+      let newChatWithContact = { name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
@@ -93,30 +92,38 @@ export default function Chat() {
             </div>
             <div style={{ overflowY: "scroll", background: "black", color: "white", height: "55%", width: "100%", position: "relative" }}>
               <div>
-              {ChatListLeft(chats, setCurrChat)}
+                {ChatListLeft(chats, setCurrChat)}
               </div>
             </div>
           </div>
           <div class="col-md-8">
-              <ChatBar nickname={"yyy"} />
-              <div className="chat-panel">
+            <ChatBar nickname={"yyy"} />
+            <div className="chat-panel">
 
-                <div>{ChatBox(chats, currChat)}</div>
+              <div>{ChatBox(chats, currChat)}</div>
 
-                <div class="row">
-                  <div class="col-12">
-                    <div class="chat-box-tray">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
-                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-                      </svg>
-                      <form>
-                      <input id="chatIn" defaultValue=""  type="text" placeholder="Type your message here..."/>
+              <div class="row">
+                <div class="col-12">
+                  <div class="chat-box-tray">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                      <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+                    </svg>
+                    <form>
+                      <input id="chatIn" defaultValue="" type="text" placeholder="Type your message here..." />
                       <i class="material-icons">mic</i>
                       <Button type="button" onClick={() => {
-                        let newChat = sendMessage(currChat);
-                        setCurrChat(newChat.messageHistory);
-                        document.getElementById("chatIn").value = '';
-                      }}>send</Button>
+                        let message = sendMessage();
+                        let conts = chats;
+                        let newContact = chats.at(currChat);
+                        let history = newContact.messageHistory;
+                        let newHistory = [...history, message];
+                        newContact.messageHistory = newHistory;
+                        conts[currChat] = newContact;
+                        setRender(renderHelper);
+                        setChats(conts);
+                        console.log(conts)
+                      }
+                      }>send</Button>
                     </form>
                   </div>
                 </div>
@@ -140,13 +147,13 @@ export default function Chat() {
               <Alert.Heading>You already have chat with this user</Alert.Heading>
             </Alert>
             <Alert variant="danger" show={userExist && errorType2}  >
-            <Alert.Heading>There is no user with that name</Alert.Heading>
-          </Alert>
+              <Alert.Heading>There is no user with that name</Alert.Heading>
+            </Alert>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary" onClick={()=>{
+            <button type="button" className="btn btn-primary" onClick={() => {
               let newContact = addContactChat();
-              if (newContact!=null){
+              if (newContact != null) {
                 setChats(newContact)
               }
             }}>Start Chat</button>
@@ -160,13 +167,16 @@ export default function Chat() {
 
 
 
-const sendMessage = (chat) => {
+const sendMessage = () => {
   let message = document.getElementById("chatIn").value;
+  document.getElementById("chatIn").value = '';
   let newMessage = { side: "right", text: message };
-  let newChat = [...chat, newMessage];
-  return newChat;
+  return newMessage;
 }
 
+const renderHelper = (prev)=> {
+  return !prev;
+}
 
 function ChatBar(props) {
   return (
@@ -181,7 +191,6 @@ function ChatBar(props) {
     </div>
   );
 }
-
 
 
 

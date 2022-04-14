@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Nick from '../images/nick.png';
 import p1 from '../images/profile.jpg';
 import p2 from '../images/profile5.png';
@@ -22,10 +22,10 @@ import users from "../Users";
 
 
 export default function Chat() {
-  let defaultBox = [{side:"right", text:""}];
-  const [currChat, setCurrChat] = useState(defaultBox);
-  const [chatListLeft, setChatListLeft] = useState(contacts);
-  const [chat, setChat] = useState(contacts.at(currChat));
+  let defaultBox = [{ side: "right", text: "" }];
+  const [currChat, setCurrChat] = useState(0);
+  const [chats, setChats] = useState(contacts);
+  const [render, setRender] = useState(false);
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
   const [input, setInput] = useState();
@@ -40,32 +40,30 @@ export default function Chat() {
 
 
   const checkUserExists = (name) => {
-    return chatListLeft.find((el)=> {
+    return chats.find((el) => {
       return el.name === name;
-    }); 
+    });
   }
   const addContactChat = () => {
     let username = (document.getElementById("usernameAdd"));
     //cheks if we already have a chat with this contact
     console.log(username.value);
 
-    if(checkUserExists(username.value))
-    { 
+    if (checkUserExists(username.value)) {
       console.log("hot here\n");
       setErrorType2(false)
       setErrorType1(true)
       userIsNotExist()
       return null;
     }
-  
+
     if (users.has(username.value)) {
       console.log(" offfffffffffff\n");
       setShow(false)
       let hisHistory = []
       var today = new Date();
-      console.log(users.get(username.value).at(1));
-      let newChatWithContact = { name:  username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1)};
-      let newContact = [...chatListLeft, newChatWithContact];
+      let newChatWithContact = { name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
       setErrorType2(false)
@@ -102,7 +100,7 @@ export default function Chat() {
             </div>
             <div style={{ overflowY: "scroll", background: "black", color: "white", height: "55%", width: "100%", position: "relative" }}>
               <div>
-              {ChatListLeft(chatListLeft, setCurrChat)}
+                {ChatListLeft(chats, setCurrChat)}
               </div>
             </div>
           </div>
@@ -138,10 +136,18 @@ export default function Chat() {
                       <form>
                       <input id="chatIn" defaultValue=""  type="text" width="70" placeholder="Type your message here..."/>
                       <Button type="button" onClick={() => {
-                        let newChat = sendMessage(chat);
-                        setChat(newChat);
-                        document.getElementById("chatIn").value = '';
-                      }}>send</Button>
+                        let message = sendMessage();
+                        let conts = chats;
+                        let newContact = chats.at(currChat);
+                        let history = newContact.messageHistory;
+                        let newHistory = [...history, message];
+                        newContact.messageHistory = newHistory;
+                        conts[currChat] = newContact;
+                        setRender(renderHelper);
+                        setChats(conts);
+                        console.log(conts)
+                      }
+                      }>send</Button>
                     </form>
                   </div>
                 </div>
@@ -165,14 +171,14 @@ export default function Chat() {
               <Alert.Heading>You already have chat with this user</Alert.Heading>
             </Alert>
             <Alert variant="danger" show={userExist && errorType2}  >
-            <Alert.Heading>There is no user with that name</Alert.Heading>
-          </Alert>
+              <Alert.Heading>There is no user with that name</Alert.Heading>
+            </Alert>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary" onClick={()=>{
+            <button type="button" className="btn btn-primary" onClick={() => {
               let newContact = addContactChat();
-              if (newContact!=null){
-                setChatListLeft(newContact)
+              if (newContact != null) {
+                setChats(newContact)
               }
             }}>Start Chat</button>
           </div>
@@ -185,13 +191,16 @@ export default function Chat() {
 
 
 
-const sendMessage = (chat, input) => {
+const sendMessage = () => {
   let message = document.getElementById("chatIn").value;
+  document.getElementById("chatIn").value = '';
   let newMessage = { side: "right", text: message };
-  let newChat = { name: chat.name, messageHistory: [...chat.messageHistory, newMessage] };
-  return newChat;
+  return newMessage;
 }
 
+const renderHelper = (prev)=> {
+  return !prev;
+}
 
 function ChatBar(props) {
   return (
@@ -206,7 +215,6 @@ function ChatBar(props) {
     </div>
   );
 }
-
 
 
 

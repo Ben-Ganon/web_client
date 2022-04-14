@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Nick from '../images/nick.png';
 import p1 from '../images/profile.jpg';
 import p2 from '../images/profile5.png';
@@ -8,7 +8,6 @@ import attach from '../images/attachment-icon-png-8.jpg';
 import record from '../images/record.png';
 import video from '../images/video.png';
 import heart from '../images/heart.png';
-
 import ChatLeftMessageProfile from './ChatLeftMessageProfile'
 import { Link } from "react-router-dom";
 import { Form, Button, Modal, Container, Col, Row, Card, Alert } from "react-bootstrap";
@@ -22,21 +21,115 @@ import users from "../Users";
 
 
 export default function Chat() {
+  const videoRef = useRef(null);
+  const photoRef = useRef(null);
+  const stripRef = useRef(null);
+  useEffect(() => {
+    handleVideo();
+  }, [videoRef]);
+
   const [currChat, setCurrChat] = useState(0);
   const [chats, setChats] = useState(contacts);
   const [render, setRender] = useState(false);
+
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
   const [input, setInput] = useState();
-  const [userExist, setUserExist] = useState(false)
-  const userIsNotExist = () => setUserExist(true)
-  const userIsExist = () => setUserExist(false)
-  const [show, setShow] = useState(false)
-  const [showAttach, setShowAttach] = useState(false)
+  const [userExist, setUserExist] = useState(false);
+  const userIsNotExist = () => setUserExist(true);
+  const userIsExist = () => setUserExist(false);
+  const [show, setShow] = useState(false);
+  const [showAttach, setShowAttach] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+
   const handleShow = () => setShow(true)
   const handleClose = () => { setShow(false); userIsExist() }
   const handleShowAttach = () => setShowAttach(!showAttach)
+  const handleVideo = () => {
 
+    navigator.mediaDevices
+      .getUserMedia({ video: { width: 300 } })
+      .then(stream => {
+        let video = videoRef.current;
+        video.srcObject = stream;
+        video.play();
+
+      })
+      .catch(err => {
+        console.error("error:", err);
+      });
+
+  };
+
+
+  const sendImage = (photo) => {
+    let message = {side: "right", text: photo};
+    let conts = chats;
+    let newContact = chats.at(currChat);
+    let history = newContact.messageHistory;
+    let newHistory = [...history, message];
+    newContact.messageHistory = newHistory;
+    conts[currChat] = newContact;
+    setRender(renderHelper);
+    setChats(conts);
+  }
+
+  const paintToCanvas = () => {
+    let video = videoRef.current;
+    let photo = photoRef.current;
+    let ctx = photo.getContext("2d");
+
+    const width = 320;
+    const height = 240;
+    photo.width = width;
+    photo.height = height;
+
+    return setInterval(() => {
+      ctx.drawImage(video, 0, 0, width, height);
+    }, 200);
+  };
+
+  const stop = (e) => {
+    const stream = video.srcObject;
+    const tracks = stream.getTracks();
+
+    for (let i = 0; i < tracks.length; i++) {
+      let track = tracks[i];
+      track.stop();
+    }
+
+    video.srcObject = null;
+  }
+
+  const takePhoto = () => {
+    let photo = photoRef.current;
+    let strip = stripRef.current;
+
+    console.warn(strip);
+    sendImage(photo);
+    const data = photo.toDataURL("image/jpeg");
+
+    const link = document.createElement("a");
+    // link.href = data;
+    // link.setAttribute("download", "myWebcam");
+    // link.innerHTML = `<img src='${data}' alt='thumbnail'/>`;
+    // strip.insertBefore(link, strip.firstChild);
+  };
+
+  const sendMessage = () => {
+    let message = getMessage();
+    if (message.text != '') {
+      let conts = chats;
+      let newContact = chats.at(currChat);
+      let history = newContact.messageHistory;
+      let newHistory = [...history, message];
+      newContact.messageHistory = newHistory;
+      conts[currChat] = newContact;
+      setRender(renderHelper);
+      setChats(conts);
+      console.log(conts)
+    }
+  }
 
   const checkUserExists = (name) => {
     return chats.find((el) => {
@@ -107,52 +200,48 @@ export default function Chat() {
             <div className="chat-panel" style={{overflowY: "scroll",overflowX:"hidden", marginBottom: "5px", height:"250px", position: "relative"}}>
 
               <div>{ChatBox(chats, currChat)}</div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <div><span className="App">
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <Modal show={showVideo}>
+                  {/* <canvas ref={photoRef} /> */}
+                  <div>
+                    <div ref={stripRef} />
+                  </div>
+                  <Button onClick={() => (takePhoto())}>take photo</Button>
+                  <video onCanPlay={() => paintToCanvas()} ref={videoRef} />
+                  <Button onClick={() => { setShowVideo(false) }}>close</Button>
+                </Modal>
+
+                <div><span className="App">
+                  {
+                    showAttach ? <button onClick={() => (handleShowAttach)}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></button> : null
+                  }
+                </span>
+                  <span className="App">
                     {
-                      showAttach ? <button onClick={handleShowAttach}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></button> : null
+                      showAttach ? <button onClick={() => { handleVideo(); setShowVideo(true) }}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></button> : null
                     }
                   </span>
-                    <span className="App">
-                      {
-                        showAttach ? <button onClick={handleShowAttach}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></button> : null
-                      }
-                    </span>
-                    <span className="App">
-                      {
-                        showAttach ? <button onClick={handleShowAttach}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></button> : null
-                      }
-                    </span></div>
-                  <div class="chat-box-tray">
+                  <span className="App">
+                    {
+                      showAttach ? <button onClick={handleShowAttach}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></button> : null
+                    }
+                  </span></div>
+                <div class="chat-box-tray">
 
-                    <div>
-                    </div>
-                    <button onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></button>
-                    <form>
-                      <input id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
-                      <Button type="button" onClick={() => {
-                        
-                        let message = sendMessage();
-                        if(message.text != ''){
-                        let conts = chats;
-                        let newContact = chats.at(currChat);
-                        let history = newContact.messageHistory;
-                        let newHistory = [...history, message];
-                        newContact.messageHistory = newHistory;
-                        conts[currChat] = newContact;
-                        setRender(renderHelper);
-                        setChats(conts);
-                        console.log(conts)
-                        }
-                      }
-                      }>send</Button>
-                    </form>
+                  <div>
                   </div>
+                  <button onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></button>
+                  <form>
+                    <input id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
+                    <Button type="button" onClick={() => { sendMessage() }
+                    }>send</Button>
+                  </form>
                 </div>
               </div>
-            
+            </div>
+
           </div>
         </div>
       </div>
@@ -191,7 +280,7 @@ export default function Chat() {
 
 
 
-const sendMessage = () => {
+const getMessage = () => {
   var today = new Date();
   let message = document.getElementById("chatIn").value;
   document.getElementById("chatIn").value = '';
@@ -216,12 +305,4 @@ function ChatBar(props) {
     </div>
   );
 }
-
-
-
-
-
-
-
-
 

@@ -12,7 +12,7 @@ import ChatBox from "./ChatBox";
       <div class="d-flex w-100 justify-content-between" style={{ background: "#99ccff", height: "100%", position: "relative" }}>
         <span><img class="profile-image" src={chat.img} alt="" />
         </span>
-        <h5>{chat.name}</h5>
+        <h5>{chat.nickname}</h5>
         <small>{chat.time}</small>
       </div>
       <div class="mb-1" style={{ textAlign: "center", background: "#99ccff" }}>{chat.last}</div>

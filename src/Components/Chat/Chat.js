@@ -4,6 +4,11 @@ import p1 from '../images/profile.jpg';
 import p2 from '../images/profile5.png';
 import p3 from '../images/profile2.png';
 import p4 from '../images/profile3.png';
+import attach from '../images/attachment-icon-png-8.jpg';
+import record from '../images/record.png';
+import video from '../images/video.png';
+import heart from '../images/heart.png';
+
 import ChatLeftMessageProfile from './ChatLeftMessageProfile'
 import { Link } from "react-router-dom";
 import { Form, Button, Modal, Container, Col, Row, Card, Alert } from "react-bootstrap";
@@ -28,8 +33,11 @@ export default function Chat() {
   const userIsNotExist = () => setUserExist(true)
   const userIsExist = () => setUserExist(false)
   const [show, setShow] = useState(false)
+  const [showAttach, setShowAttach] = useState(false)
   const handleShow = () => setShow(true)
   const handleClose = () => { setShow(false); userIsExist() }
+  const handleShowAttach = () => setShowAttach(!showAttach)
+
 
   const checkUserExists = (name) => {
     return chatListLeft.find((el)=> {
@@ -55,6 +63,7 @@ export default function Chat() {
       setShow(false)
       let hisHistory = []
       var today = new Date();
+      console.log(users.get(username.value).at(1));
       let newChatWithContact = { name:  username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1)};
       let newContact = [...chatListLeft, newChatWithContact];
       userIsExist()
@@ -105,13 +114,29 @@ export default function Chat() {
 
                 <div class="row">
                   <div class="col-12">
+                  <div><span className="App">
+                  { 
+                    showAttach?<button onClick={handleShowAttach}><img src={record} alt='record'  width="16" height="16" fill="currentColor" /></button>:null
+                  }
+                  </span>
+                  <span className="App">
+                  { 
+                    showAttach?<button onClick={handleShowAttach}><img src={video} alt='video'  width="16" height="16" fill="currentColor" /></button>:null
+                  }
+                  </span>
+                  <span className="App">
+                  { 
+                    showAttach?<button onClick={handleShowAttach}><img src={heart} alt='heart'  width="16" height="16" fill="currentColor" /></button>:null
+
+                  }
+                  </span></div>
                     <div class="chat-box-tray">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
-                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-                      </svg>
+                    
+                    <div>
+                    </div>
+                      <button onClick={handleShowAttach}><img src={attach} alt='attachment'  width="16" height="16" fill="currentColor" /></button>
                       <form>
-                      <input id="chatIn" defaultValue=""  type="text" placeholder="Type your message here..."/>
-                      <i class="material-icons">mic</i>
+                      <input id="chatIn" defaultValue=""  type="text" width="70" placeholder="Type your message here..."/>
                       <Button type="button" onClick={() => {
                         let newChat = sendMessage(chat);
                         setChat(newChat);

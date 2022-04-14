@@ -61,7 +61,7 @@ export default function Chat() {
       setShow(false)
       let hisHistory = []
       var today = new Date();
-      let newChatWithContact = { name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), last: " ", messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      let newChatWithContact = {num:chats.length, name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
@@ -103,8 +103,8 @@ export default function Chat() {
             </div>
           </div>
           <div class="col-md-8" style={{marginBottom: "10px"}}>
-            <ChatBar nickname= {chats.at(currChat).nickname}/>
-            <div className="chat-panel" style={{overflowY: "scroll",overflowX:"-moz-hidden-unscrollable", marginBottom: "5px", height:"250px", position: "relative"}}>
+            <ChatBar nickname= {chats.at(currChat).nickname} img= {chats.at(currChat).img}/>
+            <div className="chat-panel" style={{overflowY: "scroll",overflowX:"hidden", marginBottom: "5px", height:"250px", position: "relative"}}>
 
               <div>{ChatBox(chats, currChat)}</div>
               </div>
@@ -192,9 +192,10 @@ export default function Chat() {
 
 
 const sendMessage = () => {
+  var today = new Date();
   let message = document.getElementById("chatIn").value;
   document.getElementById("chatIn").value = '';
-  let newMessage = { side: "right", text: message };
+  let newMessage = { side: "right", text: message, time: today.getHours() + ':' + today.getMinutes()};
   return newMessage;
 }
 
@@ -206,7 +207,7 @@ function ChatBar(props) {
   return (
     <div className="settings-tray">
       <div className="friend-drawer no-gutters friend-drawer--grey">
-        <img className="profile-image" src={p2} alt="" />
+        <img className="profile-image" src={props.img} alt="" />
         <div className="text">
           <h6>{props.nickname}</h6>
           <p className="text-muted">text</p>

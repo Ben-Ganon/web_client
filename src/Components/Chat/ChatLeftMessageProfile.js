@@ -9,17 +9,29 @@ import ChatBox from "./ChatBox";
  function ChatLeftMessageProfile(chat) {
   return (
     <Card onClick={()=>(chat.setChat(chat.num))} style={{ background: "#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative" }}>
+    <Card>
       <div class="d-flex w-100 justify-content-between" style={{ background: "#99ccff", height: "100%", position: "relative" }}>
         <span><img class="profile-image" src={chat.img} alt="" />
         </span>
         <h5>{chat.nickname}</h5>
         <small>{chat.time}</small>
+        <div/>
+
       </div>
-      <div class="mb-1" style={{ textAlign: "center", background: "#99ccff" }}>{chat.last}</div>
+
+      <div class="mb-1" style={{ textAlign: "center", background: "#99ccff" }}>{sendLatsMessage(chat)}</div>
+      </Card>
     </Card>
   );
 
 }
+
+const sendLatsMessage = (chat) => {
+  if(chat.last === " ")
+      return " Start A New Conversation "
+  return chat.last
+}
+
 
 const renderChat = (name) => {
   return (

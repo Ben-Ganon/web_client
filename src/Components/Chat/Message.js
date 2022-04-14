@@ -4,8 +4,10 @@ export default function Message(props) {
         <div class="row no-gutters">
           <div class="col-md-auto">
             <div class="chat-bubble chat-bubble--left">
-              {props.text}
+              <div>{props.text}</div>
+              <small>{props.time}</small>
             </div>
+
           </div>
         </div>
       );
@@ -14,8 +16,10 @@ export default function Message(props) {
         <div class="row no-gutters">
           <div class="col-md-auto offset-md-9">
             <div class="chat-bubble chat-bubble--right">
-              {props.text}
+            <div>{props.text}</div>
+            <small>{props.time}</small>
             </div>
+            
           </div>
         </div>
       );

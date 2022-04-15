@@ -17,10 +17,27 @@ import contacts from "./contacts";
 import "./Chat.css";
 import ChatListLeft from "./ChatListLeft";
 import users from "../Users";
-
+import onlineArray from "./onlineArray";
 
 
 export default function Chat() {
+  const [online1, setOnline] = useState(onlineArray);
+  let usernameLogin;
+  try {
+    usernameLogin = (document.getElementById("formUsername")).value;
+    if (usernameLogin !== "" && online1.length < 2) {
+      console.log("got into it")
+      setOnline([...online1,usernameLogin])
+    }
+  } catch (error) {}
+  console.log(online1)
+  let usernameToUse;
+  if(online1.length == 2){
+    usernameToUse = online1.at(1);
+  }
+  else{
+    usernameToUse = online1.at(0);
+  }
   const videoRef = useRef(null);
   const photoRef = useRef(null);
   const stripRef = useRef(null);
@@ -34,6 +51,7 @@ export default function Chat() {
 
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
+  const [errorType3, setErrorType3] = useState(false);
   const [input, setInput] = useState();
   const [userExist, setUserExist] = useState(false);
   const userIsNotExist = () => setUserExist(true);
@@ -63,7 +81,7 @@ export default function Chat() {
 
 
   const sendImage = (photo) => {
-    let message = {side: "right", text: photo};
+    let message = { side: "right", text: photo };
     let conts = chats;
     let newContact = chats.at(currChat);
     let history = newContact.messageHistory;
@@ -140,6 +158,15 @@ export default function Chat() {
     let username = (document.getElementById("usernameAdd"));
     //cheks if we already have a chat with this contact
     console.log(username.value);
+    console.log(usernameToUse);
+    if (username.value == usernameToUse) {
+      setErrorType3(true)
+      setErrorType2(false)
+      setErrorType1(false)
+      userIsNotExist()
+      return null;
+
+    }
 
     if (checkUserExists(username.value)) {
       console.log("hot here\n");
@@ -154,17 +181,25 @@ export default function Chat() {
       setShow(false)
       let hisHistory = []
       var today = new Date();
-      let newChatWithContact = {num:chats.length, name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      let hour = today.getHours();
+      let min = today.getMinutes();
+      if (hour < 10)
+        hour = "0" + today.getHours();
+      if(min <10)
+      min = "0" + today.getMinutes();
+      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time:hour + ':' + min, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
       setErrorType2(false)
+      setErrorType3(false)
       return newContact
 
     }
     else {
       setErrorType1(false)
       setErrorType2(true)
+      setErrorType3(false)
       userIsNotExist()
       return null;
     }
@@ -177,10 +212,10 @@ export default function Chat() {
         <div className="row no-gutters" style={{ background: "#66b3ff", height: "70%" }}>
           <div className="col-md-4 border-right" style={{ background: "blue", height: "80%" }}>
             <div className="settings-tray">
-              <img className="profile-image" src={p1} alt="Profile img" />
+              <img className="profile-image" src={users.get(usernameToUse).at(2)} alt="Profile img" />
               <span className="settings-tray--right">
-                <span className="material-icons">NEED TO CHANGE IT TO THE LOGIN</span>
-                <Button variant="primary" type="submit" onClick={handleShow}>+++++</Button>
+                <span className="material-icons">{users.get(usernameToUse).at(1)}</span>
+                <Button variant="primary" type="submit" onClick={handleShow}>+</Button>
               </span>
             </div>
             <div className="search-box">
@@ -195,9 +230,9 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          <div class="col-md-8" style={{marginBottom: "10px"}}>
-            <ChatBar nickname= {chats.at(currChat).nickname} img= {chats.at(currChat).img}/>
-            <div className="chat-panel" style={{overflowY: "scroll",overflowX:"hidden", marginBottom: "5px", height:"250px", position: "relative"}}>
+          <div class="col-md-8" style={{ marginBottom: "10px" }}>
+            <ChatBar nickname={chats.at(currChat).nickname} img={chats.at(currChat).img} />
+            <div className="chat-panel" style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "250px", position: "relative" }}>
 
               <div>{ChatBox(chats, currChat)}</div>
             </div>
@@ -262,6 +297,9 @@ export default function Chat() {
             <Alert variant="danger" show={userExist && errorType2}  >
               <Alert.Heading>There is no user with that name</Alert.Heading>
             </Alert>
+            <Alert variant="danger" show={userExist && errorType3}  >
+            <Alert.Heading>You can't add yourself LOL</Alert.Heading>
+          </Alert>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={() => {
@@ -284,7 +322,13 @@ const getMessage = () => {
   var today = new Date();
   let message = document.getElementById("chatIn").value;
   document.getElementById("chatIn").value = '';
-  let newMessage = { side: "right", text: message, time: today.getHours() + ':' + today.getMinutes()};
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  if (hour < 10)
+    hour = "0" + today.getHours();
+  if(min <10)
+  min = "0" + today.getMinutes();
+  let newMessage = { side: "right", text: message, time: hour + ':' + min };
   return newMessage;
 }
 

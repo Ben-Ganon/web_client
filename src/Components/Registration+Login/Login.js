@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import App, { buttonLogin } from "../App";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import users from "../Users";
 
@@ -8,8 +8,7 @@ import users from "../Users";
 
 
 export default function Chat() {
-
-
+    let navigate = useNavigate();
     const [accessSuccess, setSuccess] = useState(false);
     const [accessFail, setFail] = useState(false);
     const [lUsers, setUsers] = useState(users);
@@ -21,7 +20,7 @@ export default function Chat() {
         console.log(users)
         if (lUsers.has(username) && lUsers.get(username).at(0) == password) {
             setSuccess(true);
-            setTimeout(() => { window.location.replace('/Chat')}, 500);
+            setTimeout(() => {navigate("/Chat");}, 500);
         }
         else {
             setFail(true);
@@ -51,19 +50,19 @@ export default function Chat() {
 
             <br/>
             <Button variant="primary" type="submit" onClick={()=> (checkLogin())} class="buttonLogin">
-                Submit
+                        Submit
             </Button>
-
+            <br />
+            <Link to="/Register" style={{ marginLeft: "-60%" }}>Not Registered?</Link>
             <Alert show={accessSuccess} onClose={() => ( setSuccess(false))} variant="primary" dismissible>
                 <Alert.Heading>Access Granted!</Alert.Heading>
             </Alert>
             <Alert show={accessFail} onClose={() => setFail(false)} variant="danger" dismissible>
                 <Alert.Heading>Wrong Username or Password</Alert.Heading>
             </Alert>
-
+  
         </Card>
-        <br />
-        <Link to="/Register" style={{ marginLeft: "-60%" }}>Not Registered?</Link>
+
     </div>
     );
 }

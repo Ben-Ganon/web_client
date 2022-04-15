@@ -179,7 +179,7 @@ export default function Chat() {
             <div className="settings-tray">
               <img className="profile-image" src={p1} alt="Profile img" />
               <span className="settings-tray--right">
-                <span className="material-icons">Sagiv</span>
+                <span className="material-icons">NEED TO CHANGE IT TO THE LOGIN</span>
                 <Button variant="primary" type="submit" onClick={handleShow}>+++++</Button>
               </span>
             </div>
@@ -299,7 +299,7 @@ function ChatBar(props) {
         <img className="profile-image" src={props.img} alt="" />
         <div className="text">
           <h6>{props.nickname}</h6>
-          <p className="text-muted">text</p>
+          <p className="text-muted">Online</p>
         </div>
       </div>
     </div>

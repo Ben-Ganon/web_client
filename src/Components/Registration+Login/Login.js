@@ -6,16 +6,18 @@ import users from "../Users";
 class Login extends React.Component {
     constructor() {
         super();
-        this.state = { accessSuccess: false, accessFail: false };
+        this.state = { accessSuccess: false, accessFail: false , suersList : users};
         this.checkLogin = this.checkLogin.bind(this);
     }
 
     checkLogin() {
         let password = (document.getElementById("formPassword")).value;
         let username = (document.getElementById("formUsername")).value;
-        if (users.has(username) && users.get(username).at(0) == password) {
+        console.log(this.state.suersList)
+        console.log(users)
+        if (this.state.suersList.has(username) && this.state.suersList.get(username).at(0) == password) {
             this.setState({ accessSuccess: true });
-            setTimeout(() => { window.location.replace('/Chat') }, 500);
+            setTimeout(() => { window.location.replace('/Chat')}, 500);
         }
         else {
             this.setState({ accessFail: true });
@@ -32,23 +34,23 @@ class Login extends React.Component {
                     </h1>
 
                     <Form.Group className="loginForm" controlId="formUsername">
-                        <Form.Label>Username</Form.Label>
+                    <br/>
                         <Form.Control type="username" placeholder="Enter Username"></Form.Control>
                     </Form.Group>
 
 
                     <Form.Group className="loginForm" controlId="formPassword">
-                        <Form.Label>Password</Form.Label>
+                    <br/>
                         <Form.Control type="password" placeholder="Enter Password"></Form.Control>
                     </Form.Group>
 
 
-
+                    <br/>
                     <Button variant="primary" type="submit" onClick={this.checkLogin} class="buttonLogin">
                         Submit
                     </Button>
 
-                    <Alert show={this.state.accessSuccess} onClose={() => { setTimeout(() => { this.setState({ accessSuccess: false }) }, 1500) }} variant="primary" dismissible>
+                    <Alert show={this.state.accessSuccess} onClose={() => { setTimeout(() => { this.setState({ accessSuccess: false }) }, 1) }} variant="primary" dismissible>
                         <Alert.Heading>Access Granted!</Alert.Heading>
                     </Alert>
                     <Alert show={this.state.accessFail} onClose={() => this.setState({ accessFail: false })} variant="danger" dismissible>

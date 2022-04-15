@@ -1,16 +1,28 @@
-
-import React from "react";
+import Nick from '../images/nick.png'
+import p1 from '../images/profile.jpg';
+import p2 from '../images/profile5.png';
+import p3 from '../images/profile2.png';
+import p4 from '../images/profile3.png';
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import users from "../Users";
+import { bind } from 'browser-router/html5-history/adapter';
+
+
+
+
 class Registration extends React.Component {
     constructor() {
         super();
         this.CheckPassword = this.CheckPassword.bind(this);
         this.register = this.register.bind(this);
+        this.state = {userTable:users , loadAgain:false}
+
     }
 
     render() {
+
         return (
             <div className="text-center" style={{ marginLeft: "40%", marginTop: "10%" }}>
                 <Card style={{ width: '20rem' }}>
@@ -19,29 +31,29 @@ class Registration extends React.Component {
                     </h1>
 
                     <Form.Group className="loginForm" controlId="username_user">
-                        <Form.Label>Username</Form.Label>
+                    <br/>
                         <Form.Control type="username" placeholder="Enter Username"></Form.Control>
                     </Form.Group>
 
                     <Form.Group className="loginForm" controlId="display" >
-                        <Form.Label>Your Freaky Name</Form.Label>
+                    <br/>
                         <Form.Control type="username" placeholder="Enter your full name"></Form.Control>
                     </Form.Group>
 
 
 
                     <Form.Group className="loginForm" controlId="password_user">
-                        <Form.Label>Password</Form.Label>
+                    <br/>
                         <Form.Control type="password" placeholder="Enter password"></Form.Control>
                     </Form.Group>
 
                     <Form.Group className="loginForm" controlId="v_password_user">
-                        <Form.Label>Verify Password</Form.Label>
+                    <br/>
                         <Form.Control type="password" placeholder="Enter password"></Form.Control>
                     </Form.Group>
 
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload Image</label>
+                    <br/>
                         <input class="form-control" type="file" id="formFile" />
                     </div>
 
@@ -124,7 +136,20 @@ class Registration extends React.Component {
 
         //SHOULD INSERT THE NEW CLIENT INTO THE MAP - BUT NOT REQUIRED
         // users.set(Username.value, PassWord.value);
+        // this.setState(new Map(...userTable,))
+        let oldUsers = this.state.userTable
+        let newMember = [Username.value.toString(), [PassWord.value.toString(),fullName.value.toString(),{p1}]]
+        let usersNew = new Map([...oldUsers,newMember])
+        this.setState({userTable : usersNew})
+
+        console.log(usersNew)
+        console.log(this.state.userTable)
+        console.log(this.state.userTable.get(Username.value))
+        console.log(users)
+
+        this.setState({loadAgain:true})
         alert("GOOD JOB!")
+        this.setState({loadAgain:false})
         window.location.replace('/Login');
     }
 

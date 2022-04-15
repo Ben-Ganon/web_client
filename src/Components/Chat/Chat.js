@@ -21,12 +21,7 @@ import users from "../Users";
 
 
 export default function Chat() {
-  const videoRef = useRef(null);
-  const photoRef = useRef(null);
-  const stripRef = useRef(null);
-  useEffect(() => {
-    handleVideo();
-  }, [videoRef]);
+
 
   const [currChat, setCurrChat] = useState(0);
   const [chats, setChats] = useState(contacts);
@@ -40,81 +35,35 @@ export default function Chat() {
   const userIsExist = () => setUserExist(false);
   const [show, setShow] = useState(false);
   const [showAttach, setShowAttach] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
-
+  const [showFileUp, setShowFileUp] = useState(false);
   const handleShow = () => setShow(true)
   const handleClose = () => { setShow(false); userIsExist() }
   const handleShowAttach = () => setShowAttach(!showAttach)
-  const handleVideo = () => {
-
-    navigator.mediaDevices
-      .getUserMedia({ video: { width: 300 } })
-      .then(stream => {
-        let video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
-
-      })
-      .catch(err => {
-        console.error("error:", err);
-      });
-
-  };
 
 
-  const sendImage = (photo) => {
-    let message = {side: "right", text: photo};
+  const [file, setFile] = useState();
+
+  const handleChange = (e) => {
+    console.log(URL.createObjectURL(e.target.files[0]));
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
+
+  const handleFile = () => {
+    var today = new Date();
+    let newTime = today.getHours() + ':' + today.getMinutes();
+    let newMessage = { type: "image", side: "right", content: file, time: newTime };
+    console.log(file);
     let conts = chats;
     let newContact = chats.at(currChat);
     let history = newContact.messageHistory;
-    let newHistory = [...history, message];
+    let newHistory = [...history, newMessage];
     newContact.messageHistory = newHistory;
     conts[currChat] = newContact;
     setRender(renderHelper);
-    setChats(conts);
+    setShowFileUp(false);
   }
 
-  const paintToCanvas = () => {
-    let video = videoRef.current;
-    let photo = photoRef.current;
-    let ctx = photo.getContext("2d");
 
-    const width = 320;
-    const height = 240;
-    photo.width = width;
-    photo.height = height;
-
-    return setInterval(() => {
-      ctx.drawImage(video, 0, 0, width, height);
-    }, 200);
-  };
-
-  const stop = (e) => {
-    const stream = video.srcObject;
-    const tracks = stream.getTracks();
-
-    for (let i = 0; i < tracks.length; i++) {
-      let track = tracks[i];
-      track.stop();
-    }
-
-    video.srcObject = null;
-  }
-
-  const takePhoto = () => {
-    let photo = photoRef.current;
-    let strip = stripRef.current;
-
-    console.warn(strip);
-    sendImage(photo);
-    const data = photo.toDataURL("image/jpeg");
-
-    const link = document.createElement("a");
-    // link.href = data;
-    // link.setAttribute("download", "myWebcam");
-    // link.innerHTML = `<img src='${data}' alt='thumbnail'/>`;
-    // strip.insertBefore(link, strip.firstChild);
-  };
 
   const sendMessage = () => {
     let message = getMessage();
@@ -154,7 +103,7 @@ export default function Chat() {
       setShow(false)
       let hisHistory = []
       var today = new Date();
-      let newChatWithContact = {num:chats.length, name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
@@ -195,22 +144,17 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          <div class="col-md-8" style={{marginBottom: "10px"}}>
-            <ChatBar nickname= {chats.at(currChat).nickname} img= {chats.at(currChat).img}/>
-            <div className="chat-panel" style={{overflowY: "scroll",overflowX:"hidden", marginBottom: "5px", height:"250px", position: "relative"}}>
+          <div class="col-md-8" style={{ marginBottom: "10px" }}>
+            <ChatBar nickname={chats.at(currChat).nickname} img={chats.at(currChat).img} />
+            <div className="chat-panel" style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "250px", position: "relative" }}>
 
               <div>{ChatBox(chats, currChat)}</div>
             </div>
             <div class="row">
               <div class="col-12">
-                <Modal show={showVideo}>
-                  {/* <canvas ref={photoRef} /> */}
-                  <div>
-                    <div ref={stripRef} />
-                  </div>
-                  <Button onClick={() => (takePhoto())}>take photo</Button>
-                  <video onCanPlay={() => paintToCanvas()} ref={videoRef} />
-                  <Button onClick={() => { setShowVideo(false) }}>close</Button>
+                <Modal style={{ marginLeft: "40%", marginTop: "35%", width: "30%" }} show={showFileUp}>
+                  <input id="up-image" type="file" onChange={(e) => handleChange(e)} />
+                  <Button type="submit" style={{ marginLeft: "32%", width: "30%" }} onClick={() => handleFile()}>send</Button>
                 </Modal>
 
                 <div><span className="App">
@@ -220,7 +164,7 @@ export default function Chat() {
                 </span>
                   <span className="App">
                     {
-                      showAttach ? <button onClick={() => { handleVideo(); setShowVideo(true) }}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></button> : null
+                      showAttach ? <button onClick={() => setShowFileUp(true)}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></button> : null
                     }
                   </span>
                   <span className="App">
@@ -284,7 +228,7 @@ const getMessage = () => {
   var today = new Date();
   let message = document.getElementById("chatIn").value;
   document.getElementById("chatIn").value = '';
-  let newMessage = { side: "right", text: message, time: today.getHours() + ':' + today.getMinutes()};
+  let newMessage = { type:"text", side: "right", content: message, time: today.getHours() + ':' + today.getMinutes() };
   return newMessage;
 }
 
@@ -306,3 +250,87 @@ function ChatBar(props) {
   );
 }
 
+
+// CAMERA STUFF:
+// const videoRef = useRef(null);
+//   const photoRef = useRef(null);
+//   const stripRef = useRef(null);
+//   useEffect(() => {
+//     handleVideo();
+//   }, [videoRef]);
+
+
+//
+//   const handleVideo = () => {
+
+//     navigator.mediaDevices
+//       .getUserMedia({ video: { width: 300 } })
+//       .then(stream => {
+//         let video = videoRef.current;
+//         video.srcObject = stream;
+//         video.play();
+
+//       })
+//       .catch(err => {
+//         console.error("error:", err);
+//       });
+
+//   };
+
+// const paintToCanvas = () => {
+//   let video = videoRef.current;
+//   let photo = photoRef.current;
+//   let ctx = photo.getContext("2d");
+
+//   const width = 320;
+//   const height = 240;
+//   photo.width = width;
+//   photo.height = height;
+
+//   return setInterval(() => {
+//     ctx.drawImage(video, 0, 0, width, height);
+//   }, 200);
+// };
+
+// const stop = (e) => {
+//   const stream = video.srcObject;
+//   const tracks = stream.getTracks();
+
+//   for (let i = 0; i < tracks.length; i++) {
+//     let track = tracks[i];
+//     track.stop();
+//   }
+
+//   video.srcObject = null;
+// }
+
+// const takePhoto = () => {
+//   let photo = photoRef.current;
+//   let strip = stripRef.current;
+
+//   const capture = React.useCallback(
+//     ()=> {
+//       const imageSrc = photoRef.current.getScreenshot()
+//     }
+//   )
+
+//   console.log(photo);
+//   const data = photo.toDataURL("image/jpeg");
+//   var today = new Date();
+//   let newTime = today.getHours() + ':' + today.getMinutes();
+//   let newPhoto = { type: "image", side: "right", content: data, time: newTime };
+//   let conts = chats;
+//   let newContact = chats.at(currChat);
+//   let history = newContact.messageHistory;
+//   let newHistory = [...history, newPhoto];
+//   newContact.messageHistory = newHistory;
+//   conts[currChat] = newContact;
+//   console.log(conts);
+//   setRender(renderHelper);
+//   setChats(conts);
+
+  // link.href = data;
+  // link.setAttribute("download", "myWebcam");
+  // link.innerHTML = `<img src='${data}' alt='thumbnail'/>`;
+  // strip.insertBefore(link, strip.firstChild);
+// };

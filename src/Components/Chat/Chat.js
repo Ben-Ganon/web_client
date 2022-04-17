@@ -40,6 +40,9 @@ export default function Chat() {
   const handleClose = () => { setShow(false); userIsExist() }
   const handleShowAttach = () => setShowAttach(!showAttach)
 
+  const [showAuButt, setShowAudButt] = useState(false);
+  const [showRecord, setShowRecord] = useState(false);
+
 
   const [file, setFile] = useState();
 
@@ -47,6 +50,48 @@ export default function Chat() {
     console.log(URL.createObjectURL(e.target.files[0]));
     setFile(URL.createObjectURL(e.target.files[0]));
   }
+
+  const handleAudio = () => {
+    let chunks = [];
+    let constraints = { audio: true, video: false };
+    navigator.mediaDevices.getUserMedia(constraints).then(
+      (stream) => {
+        var mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.onstop = () => {
+          let blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+          var today = new Date();
+          var audioURL = URL.createObjectURL(blob);
+          let newMessage = { type: "audio", side: "right", content: audioURL, time: today.getHours() + ':' + today.getMinutes() };
+          sendMessage(newMessage);
+        }
+        mediaRecorder.ondataavailable = (e) => {
+          chunks.push(e.data);
+        }
+        function recordAudio() {
+          console.log("recorder started");
+          mediaRecorder.start();
+          console.log(mediaRecorder.state);
+
+        }
+        function stopAudio() {
+          console.log("recorder stopped");
+          mediaRecorder.stop();
+          console.log(mediaRecorder.state);
+        }
+        var start = document.getElementById("start-record");
+        start.onclick = recordAudio;
+        var stop = document.getElementById("stop-record");
+        stop.onclick = () => {
+          setShowAudButt(false);
+          stopAudio()
+        }
+      }
+    );
+
+  }
+
+
 
   const handleFile = () => {
     var today = new Date();
@@ -63,11 +108,16 @@ export default function Chat() {
     setShowFileUp(false);
   }
 
+  const sendHeart = () => {
+    var today = new Date();
+    let newTime = today.getHours() + ':' + today.getMinutes();
+    let newMessage = { type: "text", side: "right", content: "♥", time: newTime };
+    sendMessage(newMessage);
 
-
-  const sendMessage = () => {
-    let message = getMessage();
-    if (message.text != '') {
+  }
+  const sendMessage = (mess) => {
+    let message = mess;
+    if (message.content != '') {
       let conts = chats;
       let newContact = chats.at(currChat);
       let history = newContact.messageHistory;
@@ -76,10 +126,9 @@ export default function Chat() {
       conts[currChat] = newContact;
       setRender(renderHelper);
       setChats(conts);
-      console.log(conts)
+      console.log(conts);
     }
   }
-
   const checkUserExists = (name) => {
     return chats.find((el) => {
       return el.name === name;
@@ -120,6 +169,8 @@ export default function Chat() {
     //need to enter the function to add the person 
   }
 
+
+
   return (
     <body>
       <div className="container" style={{ background: "pink", height: "100%", width: "100%" }}>
@@ -152,14 +203,25 @@ export default function Chat() {
             </div>
             <div class="row">
               <div class="col-12">
-                <Modal style={{ marginLeft: "40%", marginTop: "35%", width: "30%" }} show={showFileUp}>
+                <Modal style={{ marginLeft: "40%", marginTop: "250px", width: "30%" }} show={showFileUp}>
                   <input id="up-image" type="file" onChange={(e) => handleChange(e)} />
-                  <Button type="submit" style={{ marginLeft: "32%", width: "30%" }} onClick={() => handleFile()}>send</Button>
+                  <span>
+                    <Button type="submit" style={{ alignContent: "left", marginLeft: "32%", width: "30%" }} onClick={() => handleFile()}>send</Button>
+                    <Button style={{ marginLeft: "32%", width: "30%" }} onClick={() => setShowFileUp(false)}>cancel</Button>
+                  </span>
+                </Modal>
+
+                <Modal id="audio-modal" style={{ marginLeft: "40%", marginTop: "250px", width: "30%" }} show={showAuButt}>
+                  <span>
+                    <Button id="start-record" style={{ marginLeft: "32%", width: "30%" }}>Record</Button>
+                    <Button id="stop-record" style={{ marginLeft: "32%", width: "40%" }} >stop Recording</Button>
+                    <Button style={{ marginLeft: "32%", width: "30%" }} onClick={() => setShowAudButt(false)}>cancel</Button>
+                  </span>
                 </Modal>
 
                 <div><span className="App">
                   {
-                    showAttach ? <button onClick={() => (handleShowAttach)}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></button> : null
+                    showAttach ? <button onClick={() => (setShowAudButt(true), handleAudio())}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></button> : null
                   }
                 </span>
                   <span className="App">
@@ -169,7 +231,7 @@ export default function Chat() {
                   </span>
                   <span className="App">
                     {
-                      showAttach ? <button onClick={handleShowAttach}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></button> : null
+                      showAttach ? <button onClick={() => sendHeart()}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></button> : null
                     }
                   </span></div>
                 <div class="chat-box-tray">
@@ -179,8 +241,7 @@ export default function Chat() {
                   <button onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></button>
                   <form>
                     <input id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
-                    <Button type="button" onClick={() => { sendMessage() }
-                    }>send</Button>
+                    <Button type="button" onClick={() => { sendMessage(getMessage()) }}>send</Button>
                   </form>
                 </div>
               </div>
@@ -228,7 +289,7 @@ const getMessage = () => {
   var today = new Date();
   let message = document.getElementById("chatIn").value;
   document.getElementById("chatIn").value = '';
-  let newMessage = { type:"text", side: "right", content: message, time: today.getHours() + ':' + today.getMinutes() };
+  let newMessage = { type: "text", side: "right", content: message, time: today.getHours() + ':' + today.getMinutes() };
   return newMessage;
 }
 

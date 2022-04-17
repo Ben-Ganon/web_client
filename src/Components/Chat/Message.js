@@ -20,7 +20,6 @@ export default function Message(props) {
               <div>{props.content}</div>
               <small>{props.time}</small>
             </div>
-
           </div>
         </div>
       );
@@ -40,7 +39,7 @@ export default function Message(props) {
     } else {
       return (
         <div class="row no-gutters">
-          <div class="col-md-auto offset-md-3">
+          <div class="col-md-auto offset-md-6">
             <div class="chat-bubble chat-bubble--right">
             <img src={props.content} alt="preview"/>
             <small>{props.time}</small>
@@ -50,5 +49,36 @@ export default function Message(props) {
         </div>
       );
     }
-  }
+  } else if(props.type == "audio") {
+    if (props.side == "left") {
+      return (
+        <div class="row no-gutters">
+          <div class="col-md-auto">
+            <div class="chat-bubble chat-bubble--left">
+              <audio src={props.content}/>
+              <small>{props.time}</small>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div class="row no-gutters">
+          <div class="col-md-auto offset-md-6">
+            <div class="chat-bubble chat-bubble--right">
+            <audio controls >
+              
+            <source  src={props.content} type={props.content.type}></source>
+            </audio>
+
+            <small>{props.time}</small>
+            </div>
+            
+          </div>
+        </div>
+      );
+    }
+  } 
+  
+  else return null;
 }

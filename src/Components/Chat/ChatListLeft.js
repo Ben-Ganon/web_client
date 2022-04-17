@@ -4,7 +4,7 @@ import p1 from '../images/p1.jpg';
 const sendLatsMessage = (chat) => {
     if (chat.messageHistory.length === 0)
         return " "
-    return chat.messageHistory.at(chat.messageHistory.length - 1).text;
+    return chat.messageHistory.at(chat.messageHistory.length - 1).content;
 }
 const sendLatsMessageTime = (chat) => {
     if (chat.messageHistory.length === 0)

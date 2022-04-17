@@ -5,11 +5,11 @@ import p4 from '../Components/images/p4.jpg';
 import p5 from '../Components/images/p5.png';
 import defaultContact from '../Components/images/defaultContact.jpg';
 
-let contactsBen = [{num: 0, name:"Sagiv", img: p4, time: "13:53", messageHistory: [{side: "left", text:"hi",time:"13:53"},{side: "left", text: "I am Sagiv",time:"15:53"}, {side: "right", text: "ok",time:"16:00"}],nickname:"Sagiv The Terminator"},
-                {num: 1, name:"Omri", img: p3, time: "12:13", messageHistory: [{side: "left", text:"Hello",time:"13:53"},{side: "left", text: "I am Omri",time:"13:53"}, {side: "right", text: "BEENNNN",time:"14:53"}],nickname: "onri ben hamo"}];
+let contactsBen = [{num: 0, name:"Sagiv", img: p4, time: "13:53", messageHistory: [{type:"text", side: "left", content:"hi",time:"13:53"},{type:"text", side: "left", content:"hi",time:"13:53"}, {type:"text", side: "left", content:"hi",time:"13:53"}],nickname:"Sagiv The Terminator"},
+                {num: 1, name:"Omri", img: p3, time: "12:13", messageHistory: [{type:"text", side: "left", content:"hi",time:"13:53"},{type:"text", side: "left", content:"hi",time:"13:53"}, {type:"text", side: "left", content:"hi",time:"13:53"}],nickname: "onri ben hamo"}];
 
-let contactsSagiv = [{num: 0, name:"Ben", img: p1, time: "13:53", messageHistory: [{side: "left", text:"hi",time:"13:53"},{side: "left", text: "I am Ben",time:"15:53"}, {side: "right", text: "ok",time:"16:00"}],nickname: "Ben The DFAQ"},
-                {num: 1, name:"Omri", img:p3, time: "12:13", messageHistory: [{side: "left", text:"Hello",time:"13:53"},{side: "left", text: "I am Omri",time:"13:53"}, {side: "right", text: "BEENNNN",time:"14:53"}],nickname: "onri ben hamo"}];
+let contactsSagiv = [{num: 0, name:"Ben", img: p1, time: "13:53", messageHistory: [{type:"text", side: "left", content:"hi",time:"13:53"},{type:"text", side: "left", content:"hi",time:"13:53"}, {type:"text", side: "left", content:"bennnnnnnnn",time:"13:53"}],nickname: "Ben The DFAQ"},
+                {num: 1, name:"Omri", img:p3, time: "12:13", messageHistory: [{type:"text", side: "left", content:"hi",time:"13:53"},{type:"text", side: "left", content:"hi",time:"13:53"}, {type:"text", side: "left", content:"hi",time:"13:53"}],nickname: "onri ben hamo"}];
 
 
 

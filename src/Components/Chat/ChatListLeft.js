@@ -1,5 +1,5 @@
 import ChatLeftMessageProfile from "./ChatLeftMessageProfile";
-import p1 from '../images/profile4.jpg';
+import p1 from '../images/p1.jpg';
 
 const sendLatsMessage = (chat) => {
     if(chat.messageHistory.length === 0)

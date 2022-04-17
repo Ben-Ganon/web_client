@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import Nick from '../images/nick.png';
-import p1 from '../images/profile.jpg';
-import p2 from '../images/profile5.png';
-import p3 from '../images/profile2.png';
-import p4 from '../images/profile3.png';
+import p1 from '../images/p1.jpg';
+import p2 from '../images/p2.png';
+import p3 from '../images/p3.png';
+import p4 from '../images/p4.jpg';
+import defaultContact from '../images/defaultContact.jpg';
 import attach from '../images/attachment-icon-png-8.jpg';
 import record from '../images/record.png';
 import video from '../images/video.png';
@@ -26,16 +27,14 @@ export default function Chat() {
   try {
     usernameLogin = (document.getElementById("formUsername")).value;
     if (usernameLogin !== "" && online1.length < 2) {
-      console.log("got into it")
-      setOnline([...online1,usernameLogin])
+      setOnline([...online1, usernameLogin])
     }
-  } catch (error) {}
-  console.log(online1)
+  } catch (error) { }
   let usernameToUse;
-  if(online1.length == 2){
+  if (online1.length == 2) {
     usernameToUse = online1.at(1);
   }
-  else{
+  else {
     usernameToUse = online1.at(0);
   }
   const videoRef = useRef(null);
@@ -44,9 +43,19 @@ export default function Chat() {
   useEffect(() => {
     handleVideo();
   }, [videoRef]);
-
+  const [boolChangeOnce, setBoolChangeOnce] = useState(false)
   const [currChat, setCurrChat] = useState(0);
-  const [chats, setChats] = useState(contacts);
+  const [chats, setChats] = useState(users.get(usernameToUse).at(3));
+
+  //checks if the correct chat is insert into the chatbox to show
+  if (usernameToUse == online1.at(1) && users.get(usernameToUse).at(3) != chats) {
+    if (boolChangeOnce == false) {
+      setBoolChangeOnce(true)
+      setChats(users.get(usernameToUse).at(3))
+    }
+  }
+
+
   const [render, setRender] = useState(false);
 
   const [errorType1, setErrorType1] = useState(false);
@@ -128,10 +137,7 @@ export default function Chat() {
     const data = photo.toDataURL("image/jpeg");
 
     const link = document.createElement("a");
-    // link.href = data;
-    // link.setAttribute("download", "myWebcam");
-    // link.innerHTML = `<img src='${data}' alt='thumbnail'/>`;
-    // strip.insertBefore(link, strip.firstChild);
+
   };
 
   const sendMessage = () => {
@@ -145,7 +151,6 @@ export default function Chat() {
       conts[currChat] = newContact;
       setRender(renderHelper);
       setChats(conts);
-      console.log(conts)
     }
   }
 
@@ -157,8 +162,6 @@ export default function Chat() {
   const addContactChat = () => {
     let username = (document.getElementById("usernameAdd"));
     //cheks if we already have a chat with this contact
-    console.log(username.value);
-    console.log(usernameToUse);
     if (username.value == usernameToUse) {
       setErrorType3(true)
       setErrorType2(false)
@@ -169,7 +172,6 @@ export default function Chat() {
     }
 
     if (checkUserExists(username.value)) {
-      console.log("hot here\n");
       setErrorType2(false)
       setErrorType1(true)
       userIsNotExist()
@@ -177,7 +179,6 @@ export default function Chat() {
     }
 
     if (users.has(username.value)) {
-      console.log(" offfffffffffff\n");
       setShow(false)
       let hisHistory = []
       var today = new Date();
@@ -185,9 +186,9 @@ export default function Chat() {
       let min = today.getMinutes();
       if (hour < 10)
         hour = "0" + today.getHours();
-      if(min <10)
-      min = "0" + today.getMinutes();
-      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time:hour + ':' + min, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      if (min < 10)
+        min = "0" + today.getMinutes();
+      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: hour + ':' + min, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
@@ -203,7 +204,35 @@ export default function Chat() {
       userIsNotExist()
       return null;
     }
-    //need to enter the function to add the person 
+
+  }
+  
+  const returnStatus = () => {
+    if (chats.length != 0) {
+      return "Offline";
+    }
+    return "";
+  }
+
+  const returnNickname = () => {
+    if (chats.length != 0) {
+      return chats.at(currChat).nickname;
+    }
+    return "";
+  }
+
+  const returnImg = () => {
+    if (chats.length != 0) {
+      return chats.at(currChat).img;
+    }
+    return defaultContact;
+  }
+
+  const returnMsg = () => {
+    if (chats.length != 0) {
+      return ChatBox(chats, currChat);
+    }
+    return "";
   }
 
   return (
@@ -231,10 +260,10 @@ export default function Chat() {
             </div>
           </div>
           <div class="col-md-8" style={{ marginBottom: "10px" }}>
-            <ChatBar nickname={chats.at(currChat).nickname} img={chats.at(currChat).img} />
+            <ChatBar status={returnStatus()} nickname={returnNickname()} img={returnImg()} />
             <div className="chat-panel" style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "250px", position: "relative" }}>
 
-              <div>{ChatBox(chats, currChat)}</div>
+              <div>{returnMsg()}</div>
             </div>
             <div class="row">
               <div class="col-12">
@@ -298,8 +327,8 @@ export default function Chat() {
               <Alert.Heading>There is no user with that name</Alert.Heading>
             </Alert>
             <Alert variant="danger" show={userExist && errorType3}  >
-            <Alert.Heading>You can't add yourself LOL</Alert.Heading>
-          </Alert>
+              <Alert.Heading>You can't add yourself LOL</Alert.Heading>
+            </Alert>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={() => {
@@ -317,7 +346,6 @@ export default function Chat() {
 
 
 
-
 const getMessage = () => {
   var today = new Date();
   let message = document.getElementById("chatIn").value;
@@ -326,8 +354,8 @@ const getMessage = () => {
   let min = today.getMinutes();
   if (hour < 10)
     hour = "0" + today.getHours();
-  if(min <10)
-  min = "0" + today.getMinutes();
+  if (min < 10)
+    min = "0" + today.getMinutes();
   let newMessage = { side: "right", text: message, time: hour + ':' + min };
   return newMessage;
 }
@@ -343,7 +371,7 @@ function ChatBar(props) {
         <img className="profile-image" src={props.img} alt="" />
         <div className="text">
           <h6>{props.nickname}</h6>
-          <p className="text-muted">Online</p>
+          <p className="text-muted">{props.status}</p>
         </div>
       </div>
     </div>

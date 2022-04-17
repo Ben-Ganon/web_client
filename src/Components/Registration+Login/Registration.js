@@ -1,13 +1,16 @@
 import Nick from '../images/nick.png'
-import p1 from '../images/profile.jpg';
-import p2 from '../images/profile5.png';
-import p3 from '../images/profile2.png';
-import p4 from '../images/profile3.png';
+import p1 from '../images/p1.jpg';
+import p2 from '../images/p2.png';
+import p3 from '../images/p3.png';
+import p4 from '../images/p4.jpg';
+import p5 from '../images/p5.png';
+import defaultContact from '../images/defaultContact.jpg';
 import React, { useState } from "react";
 import { Link,useNavigate,useHistory  } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import users from "../Users";
 import { bind } from 'browser-router/html5-history/adapter';
+import { getActiveElement } from '@testing-library/user-event/dist/utils';
 
 
 
@@ -17,7 +20,6 @@ export default function Registration() {
     const [userTable, setUserTable] = useState(users);
     //checks valid password
     const CheckPassword = (pass, v_pass) => {
-        console.log("got into the check")
         var lowerCaseLetters = /[a-z]/g;
         var upperCaseLetters = /[A-Z]/g;
         var numbers = /[0-9]/g;
@@ -52,8 +54,34 @@ export default function Registration() {
             return 'Username is already taken'
         }
         return true
-    }
+    }   
 
+    const choosePhoto = () => {
+        let imageUser = document.getElementById("formFile").value;
+        if(imageUser == ""){
+            imageUser = defaultContact
+        }
+        //cut the image string
+        else{
+            imageUser = imageUser.slice(-6);
+            imageUser = imageUser.slice(0,2)
+        }
+        switch (imageUser){
+            case "p1":
+                return p1;
+            case "p2":
+                return p2;
+            case "p3":
+                return p3;
+            case "p4":
+                return p4;
+            case "p5":
+                return p5;
+            default:
+                return ""
+        }
+        
+    }
     //main register function
     const register = () => {
         var Username = document.getElementById("username_user")
@@ -76,7 +104,9 @@ export default function Registration() {
             return
         }
         let oldUsers = userTable
-        oldUsers.set(Username.value.toString(), [PassWord.value.toString(), fullName.value.toString(), { p1 }])
+
+        let imageUser = choosePhoto();
+        oldUsers.set(Username.value.toString(), [PassWord.value.toString(), fullName.value.toString(),imageUser,[]])
         setUserTable(oldUsers)
         navigate("/Login");
 

@@ -1,8 +1,19 @@
-import Nick from '../Components/images/nick.png'
-import p1 from '../Components/images/profile.jpg';
-import p2 from '../Components/images/profile5.png';
-import p3 from '../Components/images/profile2.png';
-import p4 from '../Components/images/profile3.png';
+import p1 from '../Components/images/p1.jpg';
+import p2 from '../Components/images/p2.png';
+import p3 from '../Components/images/p3.png';
+import p4 from '../Components/images/p4.jpg';
+import p5 from '../Components/images/p5.png';
+import defaultContact from '../Components/images/defaultContact.jpg';
 
-const users = new Map([["Ben", ["1234","Ben The DFAQ",p1]],["Sagiv",["1234","Sagiv The Terminator",Nick]],["Sahar",["1234","sahar rofe",p2]],["Omri",["1234","onri ben hamo",p3]],["Uri",["1234","uri graitzer",p4]]]);
+let contactsBen = [{num: 0, name:"Sagiv", img: p4, time: "13:53", messageHistory: [{side: "left", text:"hi",time:"13:53"},{side: "left", text: "I am Sagiv",time:"15:53"}, {side: "right", text: "ok",time:"16:00"}],nickname:"Sagiv The Terminator"},
+                {num: 1, name:"Omri", img: p3, time: "12:13", messageHistory: [{side: "left", text:"Hello",time:"13:53"},{side: "left", text: "I am Omri",time:"13:53"}, {side: "right", text: "BEENNNN",time:"14:53"}],nickname: "onri ben hamo"}];
+
+let contactsSagiv = [{num: 0, name:"Ben", img: p1, time: "13:53", messageHistory: [{side: "left", text:"hi",time:"13:53"},{side: "left", text: "I am Ben",time:"15:53"}, {side: "right", text: "ok",time:"16:00"}],nickname: "Ben The DFAQ"},
+                {num: 1, name:"Omri", img:p3, time: "12:13", messageHistory: [{side: "left", text:"Hello",time:"13:53"},{side: "left", text: "I am Omri",time:"13:53"}, {side: "right", text: "BEENNNN",time:"14:53"}],nickname: "onri ben hamo"}];
+
+
+
+const users = new Map([["Ben", ["1234","Ben The DFAQ",p1,contactsBen]],["Sagiv",["1234","Sagiv The Terminator",p4,contactsSagiv]],["Sahar",["1234","sahar rofe",p2,[]]],["Omri",["1234","onri ben hamo",p3,[]]],["Uri",["1234","uri graitzer",p5,[]]]]);
+
+
 export default users;

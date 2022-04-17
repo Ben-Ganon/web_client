@@ -2,6 +2,7 @@
 import React from "react";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import Nick from '../images/nick.png';
+
 import contacts from "./contacts";
 import Chat from "./Chat";
 import ChatBox from "./ChatBox";

@@ -1,10 +1,11 @@
 export default function Message(props) {
+  if (props.type == "text") {
     if (props.side == "left") {
       return (
         <div class="row no-gutters">
           <div class="col-md-auto">
             <div class="chat-bubble chat-bubble--left">
-              <div>{props.text}</div>
+              <div>{props.content}</div>
               <small>{props.time}</small>
             </div>
 
@@ -16,7 +17,31 @@ export default function Message(props) {
         <div class="row no-gutters">
           <div class="col-md-auto offset-md-9">
             <div class="chat-bubble chat-bubble--right">
-            <div>{props.text}</div>
+              <div>{props.content}</div>
+              <small>{props.time}</small>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  } else if(props.type == "image/jpeg" || props.type == "image/png") {
+    if (props.side == "left") {
+      return (
+        <div class="row no-gutters">
+          <div class="col-md-auto">
+            <div class="chat-bubble chat-bubble--left">
+              <img src={props.content}/>
+              <small>{props.time}</small>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div class="row justify-content-end ml-auto">
+          <div class="col-auto">
+            <div class="chat-bubble chat-bubble--right">
+            <img src={props.content} alt="preview"/><br/>
             <small>{props.time}</small>
             </div>
             
@@ -24,4 +49,34 @@ export default function Message(props) {
         </div>
       );
     }
-  }
+  } else if(props.type == "audio") {
+    if (props.side == "left") {
+      return (
+        <div class="row no-gutters">
+          <div class="col-md-auto">
+            <div class="chat-bubble chat-bubble--left">
+              <audio src={props.content}/>
+              <small>{props.time}</small>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div class="row justify-content-end ml-auto">
+          <div class="col-md-auto offset-md-6">
+            <div class="chat-bubble chat-bubble--right">
+            <audio controls >
+            <source  src={props.content} type={props.content.type}></source>
+            </audio> <br />
+            <small>{props.time}</small>
+            </div>
+            
+          </div>
+        </div>
+      );
+    }
+  } 
+  
+  else return null;
+}

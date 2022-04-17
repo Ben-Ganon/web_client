@@ -4,7 +4,7 @@ import Message from "./Message";
 export default function ChatBox(chats, curr) {
     return (
         <div >
-            {chats.at(curr).messageHistory.map((message) => (<span><Message side={message.side} text={message.text} time={message.time}/></span>))}
+            {chats.at(curr).messageHistory.map((message) => (<span><Message type={message.type} side={message.side} content={message.content} time={message.time}/></span>))}
         </div>
     );
 }

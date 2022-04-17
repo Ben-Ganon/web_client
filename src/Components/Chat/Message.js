@@ -67,10 +67,8 @@ export default function Message(props) {
           <div class="col-md-auto offset-md-6">
             <div class="chat-bubble chat-bubble--right">
             <audio controls >
-              
             <source  src={props.content} type={props.content.type}></source>
             </audio>
-
             <small>{props.time}</small>
             </div>
             

@@ -43,11 +43,12 @@ export default function Chat() {
   const [showAuButt, setShowAudButt] = useState(false);
   const [showRecord, setShowRecord] = useState(false);
 
-
+  const [fileType, setFileType] = useState();
   const [file, setFile] = useState();
 
   const handleChange = (e) => {
-    console.log(URL.createObjectURL(e.target.files[0]));
+    console.log(e.target.files[0].type);
+    setFileType(e.target.files[0].type);
     setFile(URL.createObjectURL(e.target.files[0]));
   }
 
@@ -96,8 +97,7 @@ export default function Chat() {
   const handleFile = () => {
     var today = new Date();
     let newTime = today.getHours() + ':' + today.getMinutes();
-    let newMessage = { type: "image", side: "right", content: file, time: newTime };
-    console.log(file);
+    let newMessage = { type: fileType, side: "right", content: file, time: newTime };
     let conts = chats;
     let newContact = chats.at(currChat);
     let history = newContact.messageHistory;
@@ -312,86 +312,3 @@ function ChatBar(props) {
 }
 
 
-// CAMERA STUFF:
-// const videoRef = useRef(null);
-//   const photoRef = useRef(null);
-//   const stripRef = useRef(null);
-//   useEffect(() => {
-//     handleVideo();
-//   }, [videoRef]);
-
-
-//
-//   const handleVideo = () => {
-
-//     navigator.mediaDevices
-//       .getUserMedia({ video: { width: 300 } })
-//       .then(stream => {
-//         let video = videoRef.current;
-//         video.srcObject = stream;
-//         video.play();
-
-//       })
-//       .catch(err => {
-//         console.error("error:", err);
-//       });
-
-//   };
-
-// const paintToCanvas = () => {
-//   let video = videoRef.current;
-//   let photo = photoRef.current;
-//   let ctx = photo.getContext("2d");
-
-//   const width = 320;
-//   const height = 240;
-//   photo.width = width;
-//   photo.height = height;
-
-//   return setInterval(() => {
-//     ctx.drawImage(video, 0, 0, width, height);
-//   }, 200);
-// };
-
-// const stop = (e) => {
-//   const stream = video.srcObject;
-//   const tracks = stream.getTracks();
-
-//   for (let i = 0; i < tracks.length; i++) {
-//     let track = tracks[i];
-//     track.stop();
-//   }
-
-//   video.srcObject = null;
-// }
-
-// const takePhoto = () => {
-//   let photo = photoRef.current;
-//   let strip = stripRef.current;
-
-//   const capture = React.useCallback(
-//     ()=> {
-//       const imageSrc = photoRef.current.getScreenshot()
-//     }
-//   )
-
-//   console.log(photo);
-//   const data = photo.toDataURL("image/jpeg");
-//   var today = new Date();
-//   let newTime = today.getHours() + ':' + today.getMinutes();
-//   let newPhoto = { type: "image", side: "right", content: data, time: newTime };
-//   let conts = chats;
-//   let newContact = chats.at(currChat);
-//   let history = newContact.messageHistory;
-//   let newHistory = [...history, newPhoto];
-//   newContact.messageHistory = newHistory;
-//   conts[currChat] = newContact;
-//   console.log(conts);
-//   setRender(renderHelper);
-//   setChats(conts);
-
-  // link.href = data;
-  // link.setAttribute("download", "myWebcam");
-  // link.innerHTML = `<img src='${data}' alt='thumbnail'/>`;
-  // strip.insertBefore(link, strip.firstChild);
-// };

@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import Nick from '../images/nick.png';
-import p1 from '../images/profile.jpg';
-import p2 from '../images/profile5.png';
-import p3 from '../images/profile2.png';
-import p4 from '../images/profile3.png';
+import p1 from '../images/p1.jpg';
+import p2 from '../images/p2.png';
+import p3 from '../images/p3.png';
+import p4 from '../images/p4.jpg';
+import defaultContact from '../images/defaultContact.jpg';
 import attach from '../images/attachment-icon-png-8.jpg';
 import record from '../images/record.png';
 import video from '../images/video.png';
@@ -17,18 +18,49 @@ import contacts from "./contacts";
 import "./Chat.css";
 import ChatListLeft from "./ChatListLeft";
 import users from "../Users";
-
+import onlineArray from "./onlineArray";
 
 
 export default function Chat() {
-
-
+  const [online1, setOnline] = useState(onlineArray);
+  let usernameLogin;
+  try {
+    usernameLogin = (document.getElementById("formUsername")).value;
+    if (usernameLogin !== "" && online1.length < 2) {
+      setOnline([...online1, usernameLogin])
+    }
+  } catch (error) { }
+  let usernameToUse;
+  if (online1.length == 2) {
+    usernameToUse = online1.at(1);
+  }
+  else {
+    usernameToUse = online1.at(0);
+  }
+  const videoRef = useRef(null);
+  const photoRef = useRef(null);
+  const stripRef = useRef(null);
+  useEffect(() => {
+    handleVideo();
+  }, [videoRef]);
+  const [boolChangeOnce, setBoolChangeOnce] = useState(false)
   const [currChat, setCurrChat] = useState(0);
-  const [chats, setChats] = useState(contacts);
+  const [chats, setChats] = useState(users.get(usernameToUse).at(3));
+
+  //checks if the correct chat is insert into the chatbox to show
+  if (usernameToUse == online1.at(1) && users.get(usernameToUse).at(3) != chats) {
+    if (boolChangeOnce == false) {
+      setBoolChangeOnce(true)
+      setChats(users.get(usernameToUse).at(3))
+    }
+  }
+
+
   const [render, setRender] = useState(false);
 
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
+  const [errorType3, setErrorType3] = useState(false);
   const [input, setInput] = useState();
   const [userExist, setUserExist] = useState(false);
   const userIsNotExist = () => setUserExist(true);
@@ -137,10 +169,16 @@ export default function Chat() {
   const addContactChat = () => {
     let username = (document.getElementById("usernameAdd"));
     //cheks if we already have a chat with this contact
-    console.log(username.value);
+    if (username.value == usernameToUse) {
+      setErrorType3(true)
+      setErrorType2(false)
+      setErrorType1(false)
+      userIsNotExist()
+      return null;
+
+    }
 
     if (checkUserExists(username.value)) {
-      console.log("hot here\n");
       setErrorType2(false)
       setErrorType1(true)
       userIsNotExist()
@@ -148,25 +186,60 @@ export default function Chat() {
     }
 
     if (users.has(username.value)) {
-      console.log(" offfffffffffff\n");
       setShow(false)
       let hisHistory = []
       var today = new Date();
-      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: today.getHours() + ':' + today.getMinutes(), messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      let hour = today.getHours();
+      let min = today.getMinutes();
+      if (hour < 10)
+        hour = "0" + today.getHours();
+      if (min < 10)
+        min = "0" + today.getMinutes();
+      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: hour + ':' + min, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
       setErrorType2(false)
+      setErrorType3(false)
       return newContact
 
     }
     else {
       setErrorType1(false)
       setErrorType2(true)
+      setErrorType3(false)
       userIsNotExist()
       return null;
     }
-    //need to enter the function to add the person 
+
+  }
+  
+  const returnStatus = () => {
+    if (chats.length != 0) {
+      return "Offline";
+    }
+    return "";
+  }
+
+  const returnNickname = () => {
+    if (chats.length != 0) {
+      return chats.at(currChat).nickname;
+    }
+    return "";
+  }
+
+  const returnImg = () => {
+    if (chats.length != 0) {
+      return chats.at(currChat).img;
+    }
+    return defaultContact;
+  }
+
+  const returnMsg = () => {
+    if (chats.length != 0) {
+      return ChatBox(chats, currChat);
+    }
+    return "";
   }
 
 
@@ -177,10 +250,10 @@ export default function Chat() {
         <div className="row no-gutters" style={{ background: "#66b3ff", height: "70%" }}>
           <div className="col-md-4 border-right" style={{ background: "blue", height: "80%" }}>
             <div className="settings-tray">
-              <img className="profile-image" src={p1} alt="Profile img" />
+              <img className="profile-image" src={users.get(usernameToUse).at(2)} alt="Profile img" />
               <span className="settings-tray--right">
-                <span className="material-icons">NEED TO CHANGE IT TO THE LOGIN</span>
-                <Button variant="primary" type="submit" onClick={handleShow}>+++++</Button>
+                <span className="material-icons">{users.get(usernameToUse).at(1)}</span>
+                <Button variant="primary" type="submit" onClick={handleShow}>+</Button>
               </span>
             </div>
             <div className="search-box">
@@ -196,10 +269,10 @@ export default function Chat() {
             </div>
           </div>
           <div class="col-md-8" style={{ marginBottom: "10px" }}>
-            <ChatBar nickname={chats.at(currChat).nickname} img={chats.at(currChat).img} />
+            <ChatBar status={returnStatus()} nickname={returnNickname()} img={returnImg()} />
             <div className="chat-panel" style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "250px", position: "relative" }}>
 
-              <div>{ChatBox(chats, currChat)}</div>
+              <div>{returnMsg()}</div>
             </div>
             <div class="row">
               <div class="col-12">
@@ -267,6 +340,9 @@ export default function Chat() {
             <Alert variant="danger" show={userExist && errorType2}  >
               <Alert.Heading>There is no user with that name</Alert.Heading>
             </Alert>
+            <Alert variant="danger" show={userExist && errorType3}  >
+              <Alert.Heading>You can't add yourself LOL</Alert.Heading>
+            </Alert>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={() => {
@@ -284,12 +360,17 @@ export default function Chat() {
 
 
 
-
 const getMessage = () => {
   var today = new Date();
   let message = document.getElementById("chatIn").value;
   document.getElementById("chatIn").value = '';
-  let newMessage = { type: "text", side: "right", content: message, time: today.getHours() + ':' + today.getMinutes() };
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  if (hour < 10)
+    hour = "0" + today.getHours();
+  if (min < 10)
+    min = "0" + today.getMinutes();
+  let newMessage = { type:"text", side: "right", content: message, time: hour + ':' + min };
   return newMessage;
 }
 
@@ -304,7 +385,7 @@ function ChatBar(props) {
         <img className="profile-image" src={props.img} alt="" />
         <div className="text">
           <h6>{props.nickname}</h6>
-          <p className="text-muted">Online</p>
+          <p className="text-muted">{props.status}</p>
         </div>
       </div>
     </div>

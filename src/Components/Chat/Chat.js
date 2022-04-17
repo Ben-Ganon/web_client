@@ -37,12 +37,7 @@ export default function Chat() {
   else {
     usernameToUse = online1.at(0);
   }
-  const videoRef = useRef(null);
-  const photoRef = useRef(null);
-  const stripRef = useRef(null);
-  useEffect(() => {
-    handleVideo();
-  }, [videoRef]);
+  
   const [boolChangeOnce, setBoolChangeOnce] = useState(false)
   const [currChat, setCurrChat] = useState(0);
   const [chats, setChats] = useState(users.get(usernameToUse).at(3));

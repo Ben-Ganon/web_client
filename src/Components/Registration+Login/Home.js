@@ -12,7 +12,7 @@ function Home() {
 
 
     return(
-        <div className="text-center" style={{ marginLeft: "40%", marginTop: "10%" }}>
+        <div className="centerObject">
         <Card style={{ width: '20rem' }}>
             <h1>
                 Welcome to FreakNet!

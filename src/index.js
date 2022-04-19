@@ -9,7 +9,7 @@ import { StrictMode } from 'react';
 
 
 ReactDOM.render(
-    <StrictMode>
+    <StrictMode >
       <App />
     </StrictMode>,
   document.getElementById('root')

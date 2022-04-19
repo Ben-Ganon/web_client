@@ -4,6 +4,7 @@ import p2 from '../images/p2.png';
 import p3 from '../images/p3.png';
 import p4 from '../images/p4.jpg';
 import p5 from '../images/p5.png';
+import background1 from '../images/background.jpg'
 import defaultContact from '../images/defaultContact.jpg';
 import React, { useState } from "react";
 import { Link,useNavigate,useHistory  } from "react-router-dom";
@@ -114,7 +115,7 @@ export default function Registration() {
 
 
     return (
-        <div className="text-center" style={{ marginLeft: "40%", marginTop: "10%" }}>
+        <div className="centerObject" >
             <Card style={{ width: '20rem' }}>
                 <h1>
                     Welcome to FreakNet!

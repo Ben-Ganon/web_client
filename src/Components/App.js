@@ -5,6 +5,7 @@ import Home from './Registration+Login/Home';
 import Registration from './Registration+Login/Registration';
 import Chat from './Chat/Chat';
 import Button from 'react-bootstrap/Button';
+import background1 from './images/background.jpg'
 import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
@@ -19,6 +20,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export default function App() {
+  const styles = {
+    container: {
+        backgroundImage: `url(${background1})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        width: '100vw',
+        height: '100vh'
+    }
+};
   <script
     src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
     crossorigin>
@@ -26,7 +37,7 @@ export default function App() {
   </script>
   return (
     <Router>
-      <div>
+      <div style={{backgroundImage : `url(${background1})`}}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Register' element={<Registration />} />

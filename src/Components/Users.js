@@ -13,7 +13,7 @@ let contactsSagiv = [{num: 0, name:"Ben", img: p1, time: "13:53", messageHistory
 
 
 
-const users = new Map([["Ben", ["1234","Ben The DFAQ",p1,contactsBen]],["Sagiv",["1234","Sagiv The Terminator",p4,contactsSagiv]],["Sahar",["1234","sahar rofe",p2,[]]],["Omri",["1234","onri ben hamo",p3,[]]],["Uri",["1234","uri graitzer",p5,[]]]]);
+const users = new Map([["Ben", ["1234","Ben The DFAQ",p1,contactsBen]],["Sagiv",["1234","Sagiv The Terminator",p4,contactsSagiv]],["Sahar",["1234","sahar rofe",p2,[]]],["Omri",["1234","onri ben hamo",p3,[]]],["Uri",["1234","uri graitzer",p5,[]]],["Liran",["1234","Liran Antebi",p3,[]]],["Niv",["1234","Parazit",defaultContact,[]]]]);
 
 
 export default users;

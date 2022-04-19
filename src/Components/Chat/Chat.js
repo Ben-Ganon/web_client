@@ -37,7 +37,7 @@ export default function Chat() {
   else {
     usernameToUse = online1.at(0);
   }
-  
+
   const [boolChangeOnce, setBoolChangeOnce] = useState(false)
   const [currChat, setCurrChat] = useState(0);
   const [chats, setChats] = useState(users.get(usernameToUse).at(3));
@@ -208,7 +208,7 @@ export default function Chat() {
     }
 
   }
-  
+
   const returnStatus = () => {
     if (chats.length != 0) {
       return "Offline";
@@ -240,8 +240,8 @@ export default function Chat() {
 
 
   return (
-    <body>
-      <div className="container" style={{ background: "pink", height: "100%", width: "100%" }}>
+    <div className="centerChat">
+      <div className="container" style={{ background: "pink", height: "100%", width: "100%"}}>
         <div className="row no-gutters" style={{ background: "#66b3ff", height: "70%" }}>
           <div className="col-md-4 border-right" style={{ background: "blue", height: "80%" }}>
             <div className="settings-tray">
@@ -251,13 +251,7 @@ export default function Chat() {
                 <Button variant="primary" type="submit" onClick={handleShow}>+</Button>
               </span>
             </div>
-            <div className="search-box">
-              <div className="input-wrapper">
-
-                <input placeholder="Search here" type="text" />
-              </div>
-            </div>
-            <div style={{ overflowY: "scroll", background: "black", color: "white", height: "300px", width: "100%", position: "relative" }}>
+            <div style={{ overflowY: "scroll", background: "white", color: "black", height: "450px", width: "100%", position: "relative" }}>
               <div>
                 {ChatListLeft(chats, setCurrChat)}
               </div>
@@ -265,13 +259,13 @@ export default function Chat() {
           </div>
           <div class="col-md-8" style={{ marginBottom: "10px" }}>
             <ChatBar status={returnStatus()} nickname={returnNickname()} img={returnImg()} />
-            <div className="chat-panel" style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "250px", position: "relative" }}>
+            <div style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "300px", position: "relative" }}>
 
               <div>{returnMsg()}</div>
             </div>
             <div class="row">
               <div class="col-12">
-                <Modal style={{ marginLeft: "40%", marginTop: "250px", width: "30%" }} show={showFileUp}>
+                <Modal style={{ marginLeft: "20%", marginTop: "250px", width: "30%" }} show={showFileUp}>
                   <input id="up-image" type="file" onChange={(e) => handleChange(e)} />
                   <span>
                     <Button type="submit" style={{ alignContent: "left", marginLeft: "32%", width: "30%" }} onClick={() => handleFile()}>send</Button>
@@ -303,13 +297,12 @@ export default function Chat() {
                     }
                   </span></div>
                 <div class="chat-box-tray">
-
                   <div>
                   </div>
                   <button onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></button>
                   <form>
-                    <input id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
-                    <Button type="button" onClick={() => { sendMessage(getMessage()) }}>send</Button>
+                    <input className="input-box" id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
+                    <Button type="button" className="send-button-chat" onClick={() => { sendMessage(getMessage()) }}>send</Button>
                   </form>
                 </div>
               </div>
@@ -349,7 +342,7 @@ export default function Chat() {
           </div>
         </div>
       </Modal>
-    </body>
+    </div>
   );
 }
 
@@ -365,7 +358,7 @@ const getMessage = () => {
     hour = "0" + today.getHours();
   if (min < 10)
     min = "0" + today.getMinutes();
-  let newMessage = { type:"text", side: "right", content: message, time: hour + ':' + min };
+  let newMessage = { type: "text", side: "right", content: message, time: hour + ':' + min };
   return newMessage;
 }
 
@@ -376,7 +369,7 @@ const renderHelper = (prev) => {
 function ChatBar(props) {
   return (
     <div className="settings-tray">
-      <div className="friend-drawer no-gutters friend-drawer--grey">
+      <div className="chat-bar no-gutters">
         <img className="profile-image" src={props.img} alt="" />
         <div className="text">
           <h6>{props.nickname}</h6>

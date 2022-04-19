@@ -3,7 +3,7 @@ import App, { buttonLogin } from "../App";
 import { Link,useNavigate } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import users from "../Users";
-
+import background1 from '../images/background.jpg'
 
 
 
@@ -27,7 +27,8 @@ export default function Chat() {
 
     
     return(
-        <div className="text-center" style={{ marginLeft: "40%", marginTop: "10%" }}>
+
+        <div className="centerObject">
 
         <Card style={{ width: '20rem' }}>
             <h1>
@@ -62,5 +63,6 @@ export default function Chat() {
         </Card>
 
     </div>
+
     );
 }

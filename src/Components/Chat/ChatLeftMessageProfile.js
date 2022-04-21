@@ -9,18 +9,18 @@ import ChatBox from "./ChatBox";
 
  function ChatLeftMessageProfile(chat) {
   return (
-    <Card onClick={()=>(chat.setChat(chat.num))} style={{ background: "#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative" }}>
+    <Card onClick={()=>(chat.setChat(chat.num))} style={{ background: "black", height: "20%", borderRadius: '20px solid #b3d9ff', position: "relative" }}>
     <Card>
-      <div class="d-flex w-100 justify-content-between" style={{ background: "#99ccff", height: "100%", position: "relative" }}>
+      <div class="d-flex w-100 justify-content-between" style={{ background: "black", height: "100%", position: "relative" }}>
         <span><img class="profile-image" src={chat.img} alt="" />
         </span>
-        <h5>{chat.nickname}</h5>
-        <small>{chat.time}</small>
+        <h5 style={{ color :"white" }}>{chat.nickname}</h5>
+        <small style={{ color :"white" }}>{chat.time}</small>
         <div/>
 
       </div>
 
-      <div class="mb-1" style={{ textAlign: "center", background: "#99ccff" }}>{sendLatsMessage(chat)}</div>
+      <div class="mb-1" style={{ textAlign: "center", background: "black", color :"white" }}>{sendLatsMessage(chat)}</div>
       </Card>
     </Card>
   );
@@ -41,36 +41,6 @@ const renderChat = (name) => {
     }))}</div>
   );
 }
-
-
-// class ChatLeftMessageProfile extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = { username: props.username};
-//         this.username = props.username;
-//         this.img = props.img;
-//         this.lastMassage = props.lastMassage;
-//         this.time = props.time;
-
-//     }
-
-//     render() {
-//         return (
-//             <Card style={{background:"#99e6ff", height: "20%", border: '2px solid #b3d9ff', position: "relative"}} onClick={()=>{return(alert("hello"));}}>
-//               <div class="d-flex w-100 justify-content-between" style={{background: "#99ccff", height: "100%",position: "relative"}}>
-//               <span><img class="profile-image" src={this.img} alt=""/>
-//                 </span>
-//                 <h5>{this.username}</h5>
-//                 <small>{this.time}</small>
-//               </div>
-//               <div class="mb-1" style={{textAlign: "center" ,background: "#99ccff"}}>{this.lastMassage}</div>
-//           </Card> 
-
-//         );
-
-
-//     }
-
 
 
 export default ChatLeftMessageProfile;

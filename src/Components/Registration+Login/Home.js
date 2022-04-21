@@ -13,7 +13,7 @@ function Home() {
 
     return(
         <div className="centerObject">
-        <Card style={{ width: '20rem' }}>
+        <Card style={{ width: '20rem' ,background :"#282c34" , color :"white"}}>
             <h1>
                 Welcome to FreakNet!
             </h1>
@@ -22,7 +22,7 @@ function Home() {
             Login
             </Button>
             <br />
-            <Button variant="primary" type="submit" onClick={moveToRegister} class="buttonLogin"  >
+            <Button variant="light" type="submit" onClick={moveToRegister} class="buttonLogin"  >
             Register
     </Button>
 

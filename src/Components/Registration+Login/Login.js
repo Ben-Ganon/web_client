@@ -30,7 +30,7 @@ export default function Chat() {
 
         <div className="centerObject">
 
-        <Card style={{ width: '20rem' }}>
+        <Card style={{ width: '20rem' ,background :"#282c34" , color :"white"}}>
             <h1>
                 Welcome to FreakNet!
             </h1>
@@ -53,7 +53,7 @@ export default function Chat() {
             </Button>
             <br />
             <Link to="/Register" style={{ marginLeft: "-60%" }}>Not Registered?</Link>
-            <Alert show={accessSuccess} onClose={() => ( setSuccess(false))} variant="primary" dismissible>
+            <Alert show={accessSuccess} onClose={() => ( setSuccess(false))} variant="light" dismissible>
                 <Alert.Heading>Access Granted!</Alert.Heading>
             </Alert>
             <Alert show={accessFail} onClose={() => setFail(false)} variant="danger" dismissible>

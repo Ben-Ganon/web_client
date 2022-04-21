@@ -116,7 +116,7 @@ export default function Registration() {
 
     return (
         <div className="centerObject" >
-            <Card style={{ width: '20rem' }}>
+            <Card style={{ width: '20rem',background :"#282c34" , color :"white" }}>
                 <h1>
                     Welcome to FreakNet!
                 </h1>

@@ -241,17 +241,17 @@ export default function Chat() {
 
   return (
     <div className="centerChat">
-      <div className="container" style={{ background: "pink", height: "100%", width: "100%"}}>
-        <div className="row no-gutters" style={{ background: "#66b3ff", height: "70%" }}>
-          <div className="col-md-4 border-right" style={{ background: "blue", height: "80%" }}>
-            <div className="settings-tray">
+      <div className="container" style={{ background: "black", height: "100%", width: "100%"}}>
+        <div className="row no-gutters" style={{ background: "black", height: "70%" }}>
+          <div className="col-md-4 border-right" style={{ background: "#282c34", height: "80%" ,borderRadius :"20px" }}>
+            <div className="settings-tray" style={{ background: "#282c34", color: "white" }}>
               <img className="profile-image" src={users.get(usernameToUse).at(2)} alt="Profile img" />
               <span className="settings-tray--right">
                 <span className="material-icons">{users.get(usernameToUse).at(1)}</span>
-                <Button variant="primary" type="submit" onClick={handleShow}>+</Button>
+                <Button variant="light" type="submit" onClick={handleShow}>+</Button>
               </span>
             </div>
-            <div style={{ overflowY: "scroll", background: "white", color: "black", height: "450px", width: "100%", position: "relative" }}>
+            <div style={{ overflowY: "scroll", background: "black", color: "black", height: "450px", width: "100%", position: "relative" }}>
               <div>
                 {ChatListLeft(chats, setCurrChat)}
               </div>
@@ -302,7 +302,7 @@ export default function Chat() {
                   <button onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></button>
                   <form>
                     <input className="input-box" id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
-                    <Button type="button" className="send-button-chat" onClick={() => { sendMessage(getMessage()) }}>send</Button>
+                    <Button type="button" variant="primary" className="send-button-chat" onClick={() => { sendMessage(getMessage()) }}>send</Button>
                   </form>
                 </div>
               </div>
@@ -312,7 +312,7 @@ export default function Chat() {
         </div>
       </div>
       <Modal show={show}>
-        <div className="container">
+        <div className="container" style={{background :"#282c34" , color :"white"}}>
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">Add New Contact</h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
@@ -333,7 +333,7 @@ export default function Chat() {
             </Alert>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary" onClick={() => {
+            <button type="button" className="btn btn-light" onClick={() => {
               let newContact = addContactChat();
               if (newContact != null) {
                 setChats(newContact)
@@ -368,8 +368,8 @@ const renderHelper = (prev) => {
 
 function ChatBar(props) {
   return (
-    <div className="settings-tray">
-      <div className="chat-bar no-gutters">
+    <div className="settings-tray" style={{background :"white"}}>
+      <div className="chat-bar no-gutters" style={{background :"#282c34" , color :"white"}}>
         <img className="profile-image" src={props.img} alt="" />
         <div className="text">
           <h6>{props.nickname}</h6>

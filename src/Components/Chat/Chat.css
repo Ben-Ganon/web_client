@@ -6,9 +6,9 @@
 
 
 
-.chat-box{
-  margin-bottom: 10%;
-  padding: 0;
+.chat-box {
+  margin-bottom: 20px;
+  padding: 5%;
   height: 10%;
 }
 
@@ -33,9 +33,9 @@
 }
 
 .input-box {
-  background: #fafafa;
-  padding: 10px 200px;
-  width: 90%
+  background: #95b9bb;
+  padding: 10px 100px;
+  width: 85%
 }
 
 input {
@@ -44,7 +44,7 @@ input {
   width: 80%;
 }
 
-.send-button-chat{
+.send-button-chat {
   width: 10%;
 
 }
@@ -54,17 +54,41 @@ input {
   padding: 10px 15px;
   display: flex;
   vertical-align: baseline;
-  background: #fff;
+  background: rgba(255, 255, 255, 0);
   transition: .3s ease;
 }
 
 .chat-bubble {
   padding: 10px 14px;
-  background: #eee;
+  background: rgb(0, 0, 0);
+  margin: 10px 10%;
+  border-radius: 9px;
+  position: relative;
+  animation: fadeIn 1s ease-in;
+  overflow-wrap: normal;
+  float: right;
+}
+
+.chat-bubble--right {
+  padding: 10px 14px;
+  background: rgb(217, 217, 217);
+  margin: 5px 20px;
+  border-radius: 20px;
+  position: relative;
+  animation: fadeIn 1s ease-in;
+  word-break: normal;
+  float: right;
+}
+
+.chat-bubble--left {
+  padding: 10px 14px;
+  background: rgb(118, 126, 127);
   margin: 10px 30px;
   border-radius: 9px;
   position: relative;
   animation: fadeIn 1s ease-in;
+  word-break: normal;
+
 }
 
 /* @keyframes fadeIn {
@@ -77,13 +101,43 @@ input {
   }
 } */
 
+.media-container {
+  margin: 0;
+  margin-bottom: 0%;
+  padding: 13px;
+  position: relative;
+  float: bottom;
+  border-radius: 10px;
+  background-color: #95b9bb;
+}
 
+.media-button {
+  border-radius: 9px;
+  margin: 4px;
+}
+
+.send-button {
+  background: rgb(43, 152, 183);
+  float:right;
+}
+
+.chat-container {
+  background-color: rgb(12, 26, 28);
+}
+
+.image-container{
+  max-width: 50%;  
+  image-resolution:contain;
+  position: relative;
+  float: right;
+}
 
 .chat-box-tray {
-  background: rgb(36, 36, 36);
+  background: rgb(89, 95, 109);
   display: flex;
   align-items: baseline;
   padding: 5px 5px;
-  align-items: bottom;
+  float:bottom;
   margin-top: 5%;
+  outline: rgb(37, 49, 142);
 }

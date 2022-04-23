@@ -22,6 +22,8 @@ import onlineArray from "./onlineArray";
 
 
 export default function Chat() {
+
+
   const [online1, setOnline] = useState(onlineArray);
   let usernameLogin;
   try {
@@ -41,7 +43,7 @@ export default function Chat() {
   const [boolChangeOnce, setBoolChangeOnce] = useState(false)
   const [currChat, setCurrChat] = useState(0);
   const [chats, setChats] = useState(users.get(usernameToUse).at(3));
-
+  console.log(chats.at(5).messageHistory.at(chats.at(5).messageHistory.length - 1).time)
   //checks if the correct chat is insert into the chatbox to show
   if (usernameToUse == online1.at(1) && users.get(usernameToUse).at(3) != chats) {
     if (boolChangeOnce == false) {
@@ -51,8 +53,9 @@ export default function Chat() {
   }
 
 
-  const [render, setRender] = useState(false);
 
+
+  const [render, setRender] = useState(false);
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
   const [errorType3, setErrorType3] = useState(false);
@@ -74,7 +77,6 @@ export default function Chat() {
   const [file, setFile] = useState();
 
   const handleChange = (e) => {
-    console.log(e.target.files[0].type);
     setFileType(e.target.files[0].type);
     setFile(URL.createObjectURL(e.target.files[0]));
   }
@@ -97,15 +99,11 @@ export default function Chat() {
           chunks.push(e.data);
         }
         function recordAudio() {
-          console.log("recorder started");
           mediaRecorder.start();
-          console.log(mediaRecorder.state);
 
         }
         function stopAudio() {
-          console.log("recorder stopped");
           mediaRecorder.stop();
-          console.log(mediaRecorder.state);
         }
         var start = document.getElementById("start-record");
         start.onclick = recordAudio;
@@ -119,7 +117,13 @@ export default function Chat() {
 
   }
 
+  const handleEnter = (e) => {
 
+    if (e.key === 'Enter') {
+      sendMessage(getMessage());
+      e.preventDefault();
+    }
+  }
 
   const handleFile = () => {
     var today = new Date();
@@ -153,7 +157,6 @@ export default function Chat() {
       conts[currChat] = newContact;
       setRender(renderHelper);
       setChats(conts);
-      console.log(conts);
     }
   }
   const checkUserExists = (name) => {
@@ -241,9 +244,9 @@ export default function Chat() {
 
   return (
     <div className="centerChat">
-      <div className="container" style={{ background: "black", height: "100%", width: "100%"}}>
+      <div className="container" style={{ background: "black", height: "100%", width: "100%" }}>
         <div className="row no-gutters" style={{ background: "black", height: "70%" }}>
-          <div className="col-md-4 border-right" style={{ background: "#282c34", height: "80%" ,borderRadius :"20px" }}>
+          <div className="col-md-4 border-right" style={{ background: "#282c34", height: "80%", borderRadius: "20px" }}>
             <div className="settings-tray" style={{ background: "#282c34", color: "white" }}>
               <img className="profile-image" src={users.get(usernameToUse).at(2)} alt="Profile img" />
               <span className="settings-tray--right">
@@ -257,7 +260,7 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          <div class="col-md-8" style={{ marginBottom: "10px" }}>
+          <div class="col-md-8 chat-box" style={{ marginBottom: "10px" }}>
             <ChatBar status={returnStatus()} nickname={returnNickname()} img={returnImg()} />
             <div style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "300px", position: "relative" }}>
 
@@ -281,28 +284,33 @@ export default function Chat() {
                   </span>
                 </Modal>
 
-                <div><span className="App">
-                  {
-                    showAttach ? <button onClick={() => (setShowAudButt(true), handleAudio())}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></button> : null
-                  }
+                <span>
+                  {showAttach ? <span className="media-container">
+                    <span>
+                      {
+                        showAttach ? <span className="media-button"><Button variant="outline-primary" onClick={() => (setShowAudButt(true), handleAudio())}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></Button></span> : null
+                      }
+                    </span>
+                    <span>
+                      {
+                        showAttach ? <span className="media-button"><Button variant="outline-primary" onClick={() => setShowFileUp(true)}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></Button></span> : null
+                      }
+                    </span>
+                    <span>
+                      {
+                        showAttach ? <span className="media-button"><Button size='xs' variant="outline-primary" onClick={() => sendHeart()}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></Button></span>
+                          : null
+                      }
+                    </span> </span> : null}
+
                 </span>
-                  <span className="App">
-                    {
-                      showAttach ? <button onClick={() => setShowFileUp(true)}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></button> : null
-                    }
-                  </span>
-                  <span className="App">
-                    {
-                      showAttach ? <button onClick={() => sendHeart()}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></button> : null
-                    }
-                  </span></div>
                 <div class="chat-box-tray">
                   <div>
                   </div>
-                  <button onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></button>
+                  <Button variant="outline-primary" className="media-container" onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></Button>
                   <form>
-                    <input className="input-box" id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
-                    <Button type="button" variant="primary" className="send-button-chat" onClick={() => { sendMessage(getMessage()) }}>send</Button>
+                    <input onKeyDown={(e) => { handleEnter(e) }} className="input-box" id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
+                    <Button className="send-button" type="button" variant="primary" onClick={() => { sendMessage(getMessage()) }}>send</Button>
                   </form>
                 </div>
               </div>
@@ -312,7 +320,7 @@ export default function Chat() {
         </div>
       </div>
       <Modal show={show}>
-        <div className="container" style={{background :"#282c34" , color :"white"}}>
+        <div className="container" style={{ background: "#282c34", color: "white" }}>
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">Add New Contact</h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
@@ -368,8 +376,8 @@ const renderHelper = (prev) => {
 
 function ChatBar(props) {
   return (
-    <div className="settings-tray" style={{background :"white"}}>
-      <div className="chat-bar no-gutters" style={{background :"#282c34" , color :"white"}}>
+    <div className="settings-tray" style={{ background: "white" }}>
+      <div className="chat-bar no-gutters" style={{ background: "#282c34", color: "white" }}>
         <img className="profile-image" src={props.img} alt="" />
         <div className="text">
           <h6>{props.nickname}</h6>

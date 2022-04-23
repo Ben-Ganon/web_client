@@ -42,7 +42,7 @@ export default function Chat() {
 
   const [boolChangeOnce, setBoolChangeOnce] = useState(false)
   const [currChat, setCurrChat] = useState(0);
-  const [chats, setChats] = useState(users.get(usernameToUse).at(3));
+  const [chats, setChats] = useState(users.get(usernameToUse).at(3).sort(timeComp));
   console.log(chats.at(5).messageHistory.at(chats.at(5).messageHistory.length - 1).time)
   //checks if the correct chat is insert into the chatbox to show
   if (usernameToUse == online1.at(1) && users.get(usernameToUse).at(3) != chats) {
@@ -389,3 +389,18 @@ function ChatBar(props) {
 }
 
 
+const timeComp = (a, b) => {
+  let timeA = a.messageHistory.at(a.messageHistory.length - 1).time;
+  let timeB = b.messageHistory.at(b.messageHistory.length - 1).time;
+  let hoursA = parseInt( timeA.substr(0,2));
+  let hoursB = parseInt(timeB.substr(0,2));
+  let minA = parseInt(timeA.substr(3,5));
+  let minB = parseInt(timeB.substr(3,5));
+  if(hoursA > hoursB)
+      return -1;
+  else if(hoursB > hoursA)
+      return 1;
+  else if(minA > minB)
+      return -1;
+  return 1;
+}

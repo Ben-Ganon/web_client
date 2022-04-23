@@ -14,7 +14,7 @@
 
 .container {
   margin: 1% auto;
-  background: #fff;
+  background: rgb(85, 82, 82);
   padding: 2px;
   border-radius: 7px;
   height: 50%;
@@ -27,15 +27,16 @@
 }
 
 .settings-tray {
-  background: #eee;
+  background: rgb(0, 0, 0);
   padding: 10px 15px;
   border-radius: 7px;
 }
 
 .input-box {
-  background: #95b9bb;
+  background: #dce1e5;
   padding: 10px 100px;
-  width: 85%
+  width: 85%;
+  margin-left: 10px;
 }
 
 input {
@@ -70,11 +71,13 @@ input {
 }
 
 .chat-bubble--right {
-  padding: 10px 14px;
-  background: rgb(217, 217, 217);
+  padding: 10px 10px;
+  background: #d63b3b;
+  color: white;
   margin: 5px 20px;
   border-radius: 20px;
   position: relative;
+  max-width: 50%;
   animation: fadeIn 1s ease-in;
   word-break: normal;
   float: right;
@@ -82,7 +85,7 @@ input {
 
 .chat-bubble--left {
   padding: 10px 14px;
-  background: rgb(118, 126, 127);
+  background: rgb(205, 205, 216);
   margin: 10px 30px;
   border-radius: 9px;
   position: relative;
@@ -103,12 +106,21 @@ input {
 
 .media-container {
   margin: 0;
-  margin-bottom: 0%;
-  padding: 13px;
+  margin-bottom: 4%;
+  padding: 15px;
   position: relative;
   float: bottom;
   border-radius: 10px;
-  background-color: #95b9bb;
+  background-color: rgb(115, 117, 121);
+}
+
+.media-container-btn {
+  margin-top: 1%;
+}
+
+.btn-light {
+  margin-top: 10px;
+  float: right;
 }
 
 .media-button {
@@ -117,27 +129,29 @@ input {
 }
 
 .send-button {
-  background: rgb(43, 152, 183);
+  margin-right: 5px;
+  background: #d63b3b;
   float:right;
+  margin-top: 3px;
 }
 
 .chat-container {
-  background-color: rgb(12, 26, 28);
+  background-color: rgb(0, 0, 0);
 }
 
 .image-container{
-  max-width: 50%;  
-  image-resolution:contain;
+  max-width: 80%;  
   position: relative;
+  float: top;
   float: right;
 }
 
 .chat-box-tray {
-  background: rgb(89, 95, 109);
+  background: rgb(115, 117, 121);
   display: flex;
   align-items: baseline;
   padding: 5px 5px;
   float:bottom;
-  margin-top: 5%;
-  outline: rgb(37, 49, 142);
+  margin-top: 1%;
+  outline: d63b3b;
 }

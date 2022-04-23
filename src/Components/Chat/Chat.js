@@ -42,7 +42,13 @@ export default function Chat() {
 
   const [boolChangeOnce, setBoolChangeOnce] = useState(false)
   const [currChat, setCurrChat] = useState(0);
-  const [chats, setChats] = useState(users.get(usernameToUse).at(3).sort(timeComp));
+
+  let chatHook = users.get(usernameToUse).at(3).sort(timeComp);
+  for (let index = 0; index < chatHook.length; index++) {
+    chatHook.at(index).num = index;
+  }
+  const [chats, setChats] = useState(chatHook);
+  
   console.log(chats.at(5).messageHistory.at(chats.at(5).messageHistory.length - 1).time)
   //checks if the correct chat is insert into the chatbox to show
   if (usernameToUse == online1.at(1) && users.get(usernameToUse).at(3) != chats) {
@@ -154,9 +160,16 @@ export default function Chat() {
       let history = newContact.messageHistory;
       let newHistory = [...history, message];
       newContact.messageHistory = newHistory;
-      conts[currChat] = newContact;
+      newContact.time = mess.time;
+      newContact.num = conts.at(0).num -1;
+      conts.splice(currChat, 1);
+      console.log(conts);
+      conts.unshift(newContact);
+      // conts[currChat] = newContact;
       setRender(renderHelper);
       setChats(conts);
+      console.log(newContact);
+      console.log(chats);
     }
   }
   const checkUserExists = (name) => {
@@ -245,9 +258,9 @@ export default function Chat() {
   return (
     <div className="centerChat">
       <div className="container" style={{ background: "black", height: "100%", width: "100%" }}>
-        <div className="row no-gutters" style={{ background: "black", height: "70%" }}>
-          <div className="col-md-4 border-right" style={{ background: "#282c34", height: "80%", borderRadius: "20px" }}>
-            <div className="settings-tray" style={{ background: "#282c34", color: "white" }}>
+        <div className="row no-gutters" style={{padding:"0px",  background: "black", height: "100%" }}>
+          <div className="col-md-4 border-right" style={{ background: "#282c34", height: "80%", borderRadius: "10px" }}>
+            <div className="settings-tray" style={{ background: "black", color: "white" }}>
               <img className="profile-image" src={users.get(usernameToUse).at(2)} alt="Profile img" />
               <span className="settings-tray--right">
                 <span className="material-icons">{users.get(usernameToUse).at(1)}</span>
@@ -260,57 +273,63 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          <div class="col-md-8 chat-box" style={{ marginBottom: "10px" }}>
+          <div class="col-md-8 chat-box" style={{padding:"0px", marginTop: "10px" }}>
             <ChatBar status={returnStatus()} nickname={returnNickname()} img={returnImg()} />
             <div style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "300px", position: "relative" }}>
-
               <div>{returnMsg()}</div>
             </div>
             <div class="row">
               <div class="col-12">
-                <Modal style={{ marginLeft: "20%", marginTop: "250px", width: "30%" }} show={showFileUp}>
+                <Modal style={{ marginLeft: "35%", marginTop: "40%", width: "30%" }} show={showFileUp}>
                   <input id="up-image" type="file" onChange={(e) => handleChange(e)} />
-                  <span>
-                    <Button type="submit" style={{ alignContent: "left", marginLeft: "32%", width: "30%" }} onClick={() => handleFile()}>send</Button>
-                    <Button style={{ marginLeft: "32%", width: "30%" }} onClick={() => setShowFileUp(false)}>cancel</Button>
+                  <span >
+                    <Button type="submit" style={{ alignContent: "left", width: "100%" }} onClick={() => handleFile()}>send</Button>
+                    <Button style={{width: "100%" }} onClick={() => setShowFileUp(false)}>cancel</Button>
                   </span>
                 </Modal>
 
-                <Modal id="audio-modal" style={{ marginLeft: "40%", marginTop: "250px", width: "30%" }} show={showAuButt}>
-                  <span>
-                    <Button id="start-record" style={{ marginLeft: "32%", width: "30%" }}>Record</Button>
-                    <Button id="stop-record" style={{ marginLeft: "32%", width: "40%" }} >stop Recording</Button>
-                    <Button style={{ marginLeft: "32%", width: "30%" }} onClick={() => setShowAudButt(false)}>cancel</Button>
-                  </span>
+                <Modal id="audio-modal" style={{ marginLeft: "40%", marginTop: "250px", width: "41%" }} show={showAuButt}>
+                  <Container>
+                    <Row>
+                    <Col md="auto">
+                    <Button style={{width: "100%"}} id="start-record">Record</Button>
+                    </Col>
+                    <Col md="auto">
+                    <Button style={{width: "100%"}} id="stop-record">stop Recording</Button>
+                    </Col>
+                    <Col md="auto">
+                    <Button style={{width: "100%"}}  onClick={() => setShowAudButt(false)}>cancel</Button>
+                    </Col>
+                    </Row>
+                  </Container>
                 </Modal>
 
-                <span>
+                <span style={{marginBottom: "2px"}}>
                   {showAttach ? <span className="media-container">
                     <span>
                       {
-                        showAttach ? <span className="media-button"><Button variant="outline-primary" onClick={() => (setShowAudButt(true), handleAudio())}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></Button></span> : null
+                        showAttach ? <span className="media-button"><Button variant="outline-danger" onClick={() => (setShowAudButt(true), handleAudio())}><img src={record} alt='record' width="16" height="16" fill="currentColor" /></Button></span> : null
                       }
                     </span>
                     <span>
                       {
-                        showAttach ? <span className="media-button"><Button variant="outline-primary" onClick={() => setShowFileUp(true)}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></Button></span> : null
+                        showAttach ? <span className="media-button"><Button variant="outline-danger" onClick={() => setShowFileUp(true)}><img src={video} alt='video' width="16" height="16" fill="currentColor" /></Button></span> : null
                       }
                     </span>
                     <span>
                       {
-                        showAttach ? <span className="media-button"><Button size='xs' variant="outline-primary" onClick={() => sendHeart()}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></Button></span>
+                        showAttach ? <span className="media-button"><Button size='xs' variant="outline-danger" onClick={() => sendHeart()}><img src={heart} alt='heart' width="16" height="16" fill="currentColor" /></Button></span>
                           : null
                       }
                     </span> </span> : null}
 
                 </span>
                 <div class="chat-box-tray">
-                  <div>
-                  </div>
-                  <Button variant="outline-primary" className="media-container" onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></Button>
-                  <form>
+                 
+                  <Button variant="outline-danger" className="media-container-btn" onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></Button>
+                  <form style={{width: "100%"}}>
                     <input onKeyDown={(e) => { handleEnter(e) }} className="input-box" id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
-                    <Button className="send-button" type="button" variant="primary" onClick={() => { sendMessage(getMessage()) }}>send</Button>
+                    <Button className="send-button" type="button" variant="danger" onClick={() => { sendMessage(getMessage()) }}>send</Button>
                   </form>
                 </div>
               </div>
@@ -376,7 +395,7 @@ const renderHelper = (prev) => {
 
 function ChatBar(props) {
   return (
-    <div className="settings-tray" style={{ background: "white" }}>
+    <div className="settings-tray" style={{ padding: "px", background: "white" }}>
       <div className="chat-bar no-gutters" style={{ background: "#282c34", color: "white" }}>
         <img className="profile-image" src={props.img} alt="" />
         <div className="text">

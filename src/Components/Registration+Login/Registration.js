@@ -7,7 +7,7 @@ import p5 from '../images/p5.png';
 import background1 from '../images/background.jpg'
 import defaultContact from '../images/defaultContact.jpg';
 import React, { useState } from "react";
-import { Link,useNavigate,useHistory  } from "react-router-dom";
+import { Link, useNavigate, useHistory } from "react-router-dom";
 import { Form, Button, Container, Col, Row, Card, Alert } from "react-bootstrap";
 import users from "../Users";
 import { bind } from 'browser-router/html5-history/adapter';
@@ -17,6 +17,9 @@ import { getActiveElement } from '@testing-library/user-event/dist/utils';
 
 
 export default function Registration() {
+    const [file, setFile] = useState();
+    const [fileType, setFileType] = useState();
+
     let navigate = useNavigate();
     const [userTable, setUserTable] = useState(users);
     //checks valid password
@@ -55,19 +58,19 @@ export default function Registration() {
             return 'Username is already taken'
         }
         return true
-    }   
+    }
 
     const choosePhoto = () => {
         let imageUser = document.getElementById("formFile").value;
-        if(imageUser == ""){
+        if (imageUser == "") {
             imageUser = defaultContact
         }
         //cut the image string
-        else{
+        else {
             imageUser = imageUser.slice(-6);
-            imageUser = imageUser.slice(0,2)
+            imageUser = imageUser.slice(0, 2)
         }
-        switch (imageUser){
+        switch (imageUser) {
             case "p1":
                 return p1;
             case "p2":
@@ -81,7 +84,7 @@ export default function Registration() {
             default:
                 return ""
         }
-        
+
     }
     //main register function
     const register = () => {
@@ -106,17 +109,20 @@ export default function Registration() {
         }
         let oldUsers = userTable
 
-        let imageUser = choosePhoto();
-        oldUsers.set(Username.value.toString(), [PassWord.value.toString(), fullName.value.toString(),imageUser,[]])
+        oldUsers.set(Username.value.toString(), [PassWord.value.toString(), fullName.value.toString(), file, []])
         setUserTable(oldUsers)
         navigate("/Login");
 
     }
 
+    const handleChange = (e) => {
+        setFileType(e.target.files[0].type);
+        setFile(URL.createObjectURL(e.target.files[0]));
+    }
 
     return (
         <div className="centerObject" >
-            <Card style={{ width: '20rem',background :"#282c34" , color :"white" }}>
+            <Card style={{ width: '20rem', background: "#282c34", color: "white" }}>
                 <h1>
                     Welcome to FreakNet!
                 </h1>
@@ -145,11 +151,11 @@ export default function Registration() {
 
                 <div class="mb-3">
                     <br />
-                    <input class="form-control" type="file" id="formFile" />
+                    <input class="form-control" onChange={(e) => handleChange(e)} type="file" id="formFile" />
                 </div>
 
                 <Button variant="primary" type="submit" onClick={register} class="buttonLogin"  >
-                        Submit
+                    Submit
                 </Button>
 
 

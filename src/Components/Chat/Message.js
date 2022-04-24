@@ -77,7 +77,32 @@ export default function Message(props) {
         </div>
       );
     }
-  } 
+  } else if (props.type == 'video/mp4') {
+    if (props.side == "left") {
+      return (
+        <div class="row no-gutters">
+          <div class="col-md-auto">
+            <div class="chat-bubble--left">
+              <video className="image-container" src={props.content} width="320" height="240" controls/>
+              <small>{props.time}</small>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div class="row justify-content-end ml-auto">
+          <div class="col-auto">
+          <div class="chat-bubble--right">
+            <video className="image-container" src={props.content} width="450" height="200" controls/>
+            <br/> 
+            <small>{props.time}</small>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
   
   else return null;
 }

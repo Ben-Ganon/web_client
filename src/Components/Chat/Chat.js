@@ -49,7 +49,6 @@ export default function Chat() {
   }
   const [chats, setChats] = useState(chatHook);
   
-  console.log(chats.at(5).messageHistory.at(chats.at(5).messageHistory.length - 1).time)
   //checks if the correct chat is insert into the chatbox to show
   if (usernameToUse == online1.at(1) && users.get(usernameToUse).at(3) != chats) {
     if (boolChangeOnce == false) {
@@ -163,13 +162,11 @@ export default function Chat() {
       newContact.time = mess.time;
       newContact.num = conts.at(0).num -1;
       conts.splice(currChat, 1);
-      console.log(conts);
       conts.unshift(newContact);
       // conts[currChat] = newContact;
       setRender(renderHelper);
       setChats(conts);
-      console.log(newContact);
-      console.log(chats);
+      
     }
   }
   const checkUserExists = (name) => {
@@ -280,7 +277,7 @@ export default function Chat() {
             </div>
             <div class="row">
               <div class="col-12">
-                <Modal style={{ marginLeft: "35%", marginTop: "40%", width: "30%" }} show={showFileUp}>
+                <Modal style={{ marginLeft: "35%", marginTop: "25%", width: "30%" }} show={showFileUp}>
                   <input id="up-image" type="file" onChange={(e) => handleChange(e)} />
                   <span >
                     <Button type="submit" style={{ alignContent: "left", width: "100%" }} onClick={() => handleFile()}>send</Button>

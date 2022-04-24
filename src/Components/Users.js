@@ -29,7 +29,7 @@ let contactsSagiv = [{color: 0, num: 0, name:"Ben", img: p1, time: "13:53", mess
 
 
 
-const users = new Map([["Ben", ["1234","Ben The DFAQ",p1,contactsBen]],["Sagiv",["1234","Sagiv rrr",p3,contactsSagiv]],["Sahar",["1234","sahar rofe",p2,[]]],["Omri",["1234","omri ben hamo",p3,[]]],["Uri",["1234","uri graitzer",p5,[]]],["Liran",["1234","Liran Antebi",p3,[]]],["Niv",["1234","Parazit",defaultContact,[]]],
+const users = new Map([["Ben", ["Ben123456","Ben The DFAQ",p1,contactsBen]],["Sagiv",["Sagiv123456","Sagiv rrr",p3,contactsSagiv]],["Sahar",["1234","sahar rofe",p2,[]]],["Omri",["1234","omri ben hamo",p3,[]]],["Uri",["1234","uri graitzer",p5,[]]],["Liran",["1234","Liran Antebi",p3,[]]],["Niv",["1234","Parazit",defaultContact,[]]],
                         ["Mark", ["1234","Mark Zuckerberg",markPic,[]]],["Kanye", ["1234","kanye west",kanyePic,[]]],["AllMight", ["1234","All Might",allmightPic,[]]],["Bil", ["1234","Bil Gates",bilPic,[]]],["Elon", ["1234","Elon Musk",elonPic,[]]],["Peter", ["1234","Peter Griffin",peterPic,[]]] ]);
 
 

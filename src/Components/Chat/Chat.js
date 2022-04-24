@@ -206,12 +206,13 @@ export default function Chat() {
       if (sec < 10)
         sec = "0" + today.getSeconds();
       let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: hour + ':' + min + ':' + sec, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
-      let newContact = [...chats, newChatWithContact];
+      let conts = chats;
+      conts.unshift(newChatWithContact)
       userIsExist()
       setErrorType1(false)
       setErrorType2(false)
       setErrorType3(false)
-      return newContact
+      return conts
 
     }
     else {

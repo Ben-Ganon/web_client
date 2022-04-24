@@ -17,7 +17,7 @@ import { getActiveElement } from '@testing-library/user-event/dist/utils';
 
 
 export default function Registration() {
-    const [file, setFile] = useState();
+    const [file, setFile] = useState(defaultContact);
     const [fileType, setFileType] = useState();
 
     let navigate = useNavigate();

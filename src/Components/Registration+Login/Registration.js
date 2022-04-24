@@ -82,7 +82,7 @@ export default function Registration() {
             case "p5":
                 return p5;
             default:
-                return ""
+                return 0
         }
 
     }

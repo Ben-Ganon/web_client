@@ -22,7 +22,7 @@ function Home() {
             Login
             </Button>
             <br />
-            <Button variant="light" type="submit" onClick={moveToRegister} class="buttonLogin"  >
+            <Button variant="primary" type="submit" onClick={moveToRegister} class="buttonLogin"  >
             Register
     </Button>
 

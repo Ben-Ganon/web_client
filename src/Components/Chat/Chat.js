@@ -254,6 +254,12 @@ export default function Chat() {
     }
     return "";
   }
+  const returnImgUser = () => {
+    if (users.get(usernameToUse).at(2) == 0) {
+      return defaultContact;
+    }
+    return users.get(usernameToUse).at(2);
+  }
 
 
 
@@ -263,7 +269,7 @@ export default function Chat() {
         <div className="row no-gutters" style={{ padding: "0px", background: "black", height: "100%" }}>
           <div className="col-md-4 border-right" style={{ background: "#282c34", height: "80%", borderRadius: "10px" }}>
             <div className="settings-tray" style={{ background: "black", color: "white" }}>
-              <img className="profile-image" src={users.get(usernameToUse).at(2)} alt="Profile img" />
+              <img className="profile-image" src={returnImgUser()} alt="Profile img" />
               <span className="settings-tray--right">
                 <span className="material-icons">{users.get(usernameToUse).at(1)}</span>
                 <Button variant="light" type="submit" onClick={handleShow}>+</Button>

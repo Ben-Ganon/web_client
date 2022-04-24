@@ -6,7 +6,7 @@ export default function Message(props) {
           <div class="col-md-auto">
             <div class="chat-bubble--left">
               <div>{props.content}</div>
-              <small>{props.time}</small>
+              <small>{props.time.substr(0, 5)}</small>
             </div>
 
           </div>
@@ -18,7 +18,7 @@ export default function Message(props) {
           <div>
             <div class="chat-bubble--right">
               <div>{props.content}</div>
-              <small>{props.time}</small>
+              <small>{props.time.substr(0, 5)}</small>
             </div>
           </div>
         </div>
@@ -31,7 +31,7 @@ export default function Message(props) {
           <div class="col-md-auto">
             <div class="chat-bubble--left">
               <img src={props.content}/>
-              <small>{props.time}</small>
+              <small>{props.time.substr(0, 5)}</small>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@ export default function Message(props) {
           <div class="chat-bubble--right">
             <img className="image-container" src={props.content} alt="preview"/>
             <br/> 
-            <small>{props.time}</small>
+            <small>{props.time.substr(0, 5)}</small>
             </div>
             
           </div>
@@ -57,7 +57,7 @@ export default function Message(props) {
           <div class="col-md-auto">
             <div class="chat-bubble--left">
               <audio src={props.content}/>
-              <small>{props.time}</small>
+              <small>{props.time.substr(0, 5)}</small>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@ export default function Message(props) {
             <audio controls >
             <source  src={props.content} type={props.content.type}></source>
             </audio> <br />
-            <small>{props.time}</small>
+            <small>{props.time.substr(0, 5)}</small>
             </div>
             
           </div>

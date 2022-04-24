@@ -14,12 +14,12 @@ const sendLatsMessageTime = (chat) => {
 
 //IF YOU WANT TI CHANGE IT BACK JUST GET RID OF THE sortChat(chats,setChat) AND POUT chats INSTEAD
 export default function ChatListLeft(chats, setChat) {
-    
+
     return (
         <div>
             <div>
                 {chats.sort(timeComp).map((chat) => (<ChatLeftMessageProfile
-                    color={chat.color} num={chat.num} setChat={setChat} img={chat.img} nickname={chat.nickname} last={sendLatsMessage(chat)}
+                    num={chat.num} setChat={setChat} img={chat.img} nickname={chat.nickname} last={sendLatsMessage(chat)}
                     time={sendLatsMessageTime(chat)} hist={chat.messageHistory} />))}
             </div>
         </div>
@@ -28,17 +28,35 @@ export default function ChatListLeft(chats, setChat) {
 
 
 const timeComp = (a, b) => {
-    let timeA = a.messageHistory.at(a.messageHistory.length - 1).time;
-    let timeB = b.messageHistory.at(b.messageHistory.length - 1).time;
-    let hoursA = parseInt( timeA.substr(0,2));
-    let hoursB = parseInt(timeB.substr(0,2));
-    let minA = parseInt(timeA.substr(3,5));
-    let minB = parseInt(timeB.substr(3,5));
-    if(hoursA > hoursB)
-        return -1;
-    else if(hoursB > hoursA)
-        return 1;
-    else if(minA > minB)
-        return -1;
+    let timeA;
+    let timeB;
+    if (a.messageHistory.length == 0) {
+        timeA = a.time;
+    }
+    else {
+        timeA = a.messageHistory.at(a.messageHistory.length - 1).time;
+    }
+    if (b.messageHistory.length == 0) {
+        timeB = b.time;
+    }
+    else {
+        timeB = b.messageHistory.at(b.messageHistory.length - 1).time;
+    }
+    let hoursA = parseInt(timeA.substr(0, 2));
+    let hoursB = parseInt(timeB.substr(0, 2));
+    let minA = parseInt(timeA.substr(3, 5));
+    let minB = parseInt(timeB.substr(3, 5));
+    let secA = parseInt(timeA.substr(6, 8));
+    let secB = parseInt(timeB.substr(6, 8));
+    if (hoursA > hoursB)
+      return -1;
+    else if (hoursB > hoursA)
+      return 1;
+    else if (minA > minB)
+      return -1;
+    else if (minA < minB)
+      return 1;
+    else if(secA > secB)
+      return -1;
     return 1;
 }

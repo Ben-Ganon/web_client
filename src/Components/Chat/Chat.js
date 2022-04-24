@@ -48,8 +48,7 @@ export default function Chat() {
     chatHook.at(index).num = index;
   }
   const [chats, setChats] = useState(chatHook);
-  
-  console.log(chats.at(5).messageHistory.at(chats.at(5).messageHistory.length - 1).time)
+
   //checks if the correct chat is insert into the chatbox to show
   if (usernameToUse == online1.at(1) && users.get(usernameToUse).at(3) != chats) {
     if (boolChangeOnce == false) {
@@ -98,7 +97,7 @@ export default function Chat() {
           let blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
           var today = new Date();
           var audioURL = URL.createObjectURL(blob);
-          let newMessage = { type: "audio", side: "right", content: audioURL, time: today.getHours() + ':' + today.getMinutes() };
+          let newMessage = { type: "audio", side: "right", content: audioURL, time: today.getHours() + ':' + today.getMinutes() + ":" + today.getSeconds() };
           sendMessage(newMessage);
         }
         mediaRecorder.ondataavailable = (e) => {
@@ -133,7 +132,7 @@ export default function Chat() {
 
   const handleFile = () => {
     var today = new Date();
-    let newTime = today.getHours() + ':' + today.getMinutes();
+    let newTime = today.getHours() + ':' + today.getMinutes() + ":" + today.getSeconds();
     let newMessage = { type: fileType, side: "right", content: file, time: newTime };
     let conts = chats;
     let newContact = chats.at(currChat);
@@ -147,7 +146,7 @@ export default function Chat() {
 
   const sendHeart = () => {
     var today = new Date();
-    let newTime = today.getHours() + ':' + today.getMinutes();
+    let newTime = today.getHours() + ':' + today.getMinutes() + ":" + today.getSeconds();
     let newMessage = { type: "text", side: "right", content: "♥", time: newTime };
     sendMessage(newMessage);
 
@@ -161,7 +160,7 @@ export default function Chat() {
       let newHistory = [...history, message];
       newContact.messageHistory = newHistory;
       newContact.time = mess.time;
-      newContact.num = conts.at(0).num -1;
+      newContact.num = conts.at(0).num - 1;
       conts.splice(currChat, 1);
       console.log(conts);
       conts.unshift(newContact);
@@ -202,11 +201,14 @@ export default function Chat() {
       var today = new Date();
       let hour = today.getHours();
       let min = today.getMinutes();
+      let sec = today.getSeconds();
       if (hour < 10)
         hour = "0" + today.getHours();
       if (min < 10)
         min = "0" + today.getMinutes();
-      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: hour + ':' + min, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      if (sec < 10)
+        sec = "0" + today.getSeconds();
+      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: hour + ':' + min + ':' + sec, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let newContact = [...chats, newChatWithContact];
       userIsExist()
       setErrorType1(false)
@@ -258,7 +260,7 @@ export default function Chat() {
   return (
     <div className="centerChat">
       <div className="container" style={{ background: "black", height: "100%", width: "100%" }}>
-        <div className="row no-gutters" style={{padding:"0px",  background: "black", height: "100%" }}>
+        <div className="row no-gutters" style={{ padding: "0px", background: "black", height: "100%" }}>
           <div className="col-md-4 border-right" style={{ background: "#282c34", height: "80%", borderRadius: "10px" }}>
             <div className="settings-tray" style={{ background: "black", color: "white" }}>
               <img className="profile-image" src={users.get(usernameToUse).at(2)} alt="Profile img" />
@@ -273,7 +275,7 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          <div class="col-md-8 chat-box" style={{padding:"0px", marginTop: "10px" }}>
+          <div class="col-md-8 chat-box" style={{ padding: "0px", marginTop: "10px" }}>
             <ChatBar status={returnStatus()} nickname={returnNickname()} img={returnImg()} />
             <div style={{ overflowY: "scroll", overflowX: "hidden", marginBottom: "5px", height: "300px", position: "relative" }}>
               <div>{returnMsg()}</div>
@@ -284,27 +286,27 @@ export default function Chat() {
                   <input id="up-image" type="file" onChange={(e) => handleChange(e)} />
                   <span >
                     <Button type="submit" style={{ alignContent: "left", width: "100%" }} onClick={() => handleFile()}>send</Button>
-                    <Button style={{width: "100%" }} onClick={() => setShowFileUp(false)}>cancel</Button>
+                    <Button style={{ width: "100%" }} onClick={() => setShowFileUp(false)}>cancel</Button>
                   </span>
                 </Modal>
 
                 <Modal id="audio-modal" style={{ marginLeft: "40%", marginTop: "250px", width: "41%" }} show={showAuButt}>
                   <Container>
                     <Row>
-                    <Col md="auto">
-                    <Button style={{width: "100%"}} id="start-record">Record</Button>
-                    </Col>
-                    <Col md="auto">
-                    <Button style={{width: "100%"}} id="stop-record">stop Recording</Button>
-                    </Col>
-                    <Col md="auto">
-                    <Button style={{width: "100%"}}  onClick={() => setShowAudButt(false)}>cancel</Button>
-                    </Col>
+                      <Col md="auto">
+                        <Button style={{ width: "100%" }} id="start-record">Record</Button>
+                      </Col>
+                      <Col md="auto">
+                        <Button style={{ width: "100%" }} id="stop-record">stop Recording</Button>
+                      </Col>
+                      <Col md="auto">
+                        <Button style={{ width: "100%" }} onClick={() => setShowAudButt(false)}>cancel</Button>
+                      </Col>
                     </Row>
                   </Container>
                 </Modal>
 
-                <span style={{marginBottom: "2px"}}>
+                <span style={{ marginBottom: "2px" }}>
                   {showAttach ? <span className="media-container">
                     <span>
                       {
@@ -325,9 +327,9 @@ export default function Chat() {
 
                 </span>
                 <div class="chat-box-tray">
-                 
+
                   <Button variant="outline-danger" className="media-container-btn" onClick={handleShowAttach}><img src={attach} alt='attachment' width="16" height="16" fill="currentColor" /></Button>
-                  <form style={{width: "100%"}}>
+                  <form style={{ width: "100%" }}>
                     <input onKeyDown={(e) => { handleEnter(e) }} className="input-box" id="chatIn" defaultValue="" type="text" width="70" placeholder="Type your message here..." />
                     <Button className="send-button" type="button" variant="danger" onClick={() => { sendMessage(getMessage()) }}>send</Button>
                   </form>
@@ -381,11 +383,14 @@ const getMessage = () => {
   document.getElementById("chatIn").value = '';
   let hour = today.getHours();
   let min = today.getMinutes();
+  let sec = today.getSeconds();
   if (hour < 10)
     hour = "0" + today.getHours();
   if (min < 10)
     min = "0" + today.getMinutes();
-  let newMessage = { type: "text", side: "right", content: message, time: hour + ':' + min };
+  if (sec < 10)
+    sec = "0" + today.getSeconds();
+  let newMessage = { type: "text", side: "right", content: message, time: hour + ':' + min + ':' + sec };
   return newMessage;
 }
 
@@ -409,17 +414,35 @@ function ChatBar(props) {
 
 
 const timeComp = (a, b) => {
-  let timeA = a.messageHistory.at(a.messageHistory.length - 1).time;
-  let timeB = b.messageHistory.at(b.messageHistory.length - 1).time;
-  let hoursA = parseInt( timeA.substr(0,2));
-  let hoursB = parseInt(timeB.substr(0,2));
-  let minA = parseInt(timeA.substr(3,5));
-  let minB = parseInt(timeB.substr(3,5));
-  if(hoursA > hoursB)
-      return -1;
-  else if(hoursB > hoursA)
-      return 1;
-  else if(minA > minB)
-      return -1;
+  let timeA;
+  let timeB;
+  if (a.messageHistory.length == 0) {
+      timeA = a.time;
+  }
+  else {
+      timeA = a.messageHistory.at(a.messageHistory.length - 1).time;
+  }
+  if (b.messageHistory.length == 0) {
+      timeB = b.time;
+  }
+  else {
+      timeB = b.messageHistory.at(b.messageHistory.length - 1).time;
+  }
+  let hoursA = parseInt(timeA.substr(0, 2));
+  let hoursB = parseInt(timeB.substr(0, 2));
+  let minA = parseInt(timeA.substr(3, 5));
+  let minB = parseInt(timeB.substr(3, 5));
+  let secA = parseInt(timeA.substr(6, 8));
+  let secB = parseInt(timeB.substr(6, 8));
+  if (hoursA > hoursB)
+    return -1;
+  else if (hoursB > hoursA)
+    return 1;
+  else if (minA > minB)
+    return -1;
+  else if (minA < minB)
+    return 1;
+  else if(secA > secB)
+    return -1;
   return 1;
 }

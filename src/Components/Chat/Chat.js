@@ -272,22 +272,22 @@ export default function Chat() {
                 <Modal style={{ marginLeft: "35%", marginTop: "25%", width: "30%" }} show={showFileUp}>
                   <input id="up-image" type="file" onChange={(e) => handleChange(e)} />
                   <span >
-                    <Button type="submit" style={{ alignContent: "left", width: "100%" }} onClick={() => handleFile()}>send</Button>
-                    <Button style={{ width: "100%" }} onClick={() => setShowFileUp(false)}>cancel</Button>
+                    <Button type="submit"  variant="danger" style={{ alignContent: "left", width: "100%" }} onClick={() => handleFile()}>send</Button>
+                    <Button  variant="danger" style={{ width: "100%" }} onClick={() => setShowFileUp(false)}>cancel</Button>
                   </span>
                 </Modal>
 
-                <Modal id="audio-modal" style={{ marginLeft: "40%", marginTop: "250px", width: "41%" }} show={showAuButt}>
+                <Modal id="audio-modal" style={{ marginLeft: "40%", marginTop: "250px", width: "375px" }} show={showAuButt}>
                   <Container>
                     <Row>
                       <Col md="auto">
-                        <Button style={{ width: "100%" }} id="start-record">Record</Button>
+                        <Button variant="danger" style={{ width: "100%" }} id="start-record">Record</Button>
                       </Col>
                       <Col md="auto">
-                        <Button style={{ width: "100%" }} id="stop-record">stop Recording</Button>
+                        <Button variant="danger" style={{ width: "100%" }} id="stop-record">Stop Recording</Button>
                       </Col>
                       <Col md="auto">
-                        <Button style={{ width: "100%" }} onClick={() => setShowAudButt(false)}>cancel</Button>
+                        <Button variant="danger" style={{ width: "100%" }} onClick={() => setShowAudButt(false)}>cancel</Button>
                       </Col>
                     </Row>
                   </Container>
@@ -349,7 +349,7 @@ export default function Chat() {
             </Alert>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-light" onClick={() => {
+            <button type="button" className="btn btn-danger" onClick={() => {
               let newContact = addContactChat();
               if (newContact != null) {
                 setChats(newContact)

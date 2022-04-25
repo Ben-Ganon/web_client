@@ -56,8 +56,10 @@ export default function Message(props) {
         <div class="row no-gutters">
           <div class="col-md-auto">
             <div class="chat-bubble--left">
-              <audio src={props.content}/>
-              <small>{props.time.substr(0, 5)}</small>
+            <audio className="image-container" controls >
+            <source  src={props.content} type={props.content.type}></source>
+            </audio> <br />
+            <small>{props.time.substr(0, 5)}</small>
             </div>
           </div>
         </div>
@@ -67,7 +69,7 @@ export default function Message(props) {
         <div class="row justify-content-end ml-auto">
           <div class="col-md-auto offset-md-6">
           <div class="chat-bubble--right">
-            <audio controls  style={{marginRight:"300px"}}>
+            <audio className="image-container" controls >
             <source  src={props.content} type={props.content.type}></source>
             </audio> <br />
             <small>{props.time.substr(0, 5)}</small>

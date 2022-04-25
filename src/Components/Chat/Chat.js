@@ -67,7 +67,7 @@ export default function Chat() {
   const [show, setShow] = useState(false);
   const [showAttach, setShowAttach] = useState(false);
   const [showFileUp, setShowFileUp] = useState(false);
-  const handleShow = () => setShow(true)
+  const handleShow = () => setShow(true);
   const handleClose = () => { setShow(false); userIsExist() }
   const handleShowAttach = () => setShowAttach(!showAttach)
 
@@ -88,7 +88,6 @@ export default function Chat() {
     navigator.mediaDevices.getUserMedia(constraints).then(
       (stream) => {
         var mediaRecorder = new MediaRecorder(stream);
-
         mediaRecorder.onstop = () => {
           let blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
           var today = new Date();

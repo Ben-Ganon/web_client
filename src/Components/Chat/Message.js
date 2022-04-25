@@ -67,7 +67,7 @@ export default function Message(props) {
         <div class="row justify-content-end ml-auto">
           <div class="col-md-auto offset-md-6">
           <div class="chat-bubble--right">
-            <audio controls >
+            <audio controls  style={{marginRight:"300px"}}>
             <source  src={props.content} type={props.content.type}></source>
             </audio> <br />
             <small>{props.time.substr(0, 5)}</small>

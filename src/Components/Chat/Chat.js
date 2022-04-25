@@ -56,9 +56,6 @@ export default function Chat() {
     }
   }
 
-
-
-
   const [render, setRender] = useState(false);
   const [errorType1, setErrorType1] = useState(false);
   const [errorType2, setErrorType2] = useState(false);
@@ -96,7 +93,7 @@ export default function Chat() {
           let blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
           var today = new Date();
           var audioURL = URL.createObjectURL(blob);
-          let newMessage = { type: "audio", side: "right", content: audioURL, time: today.getHours() + ':' + today.getMinutes() + ":" + today.getSeconds() };
+          let newMessage = { type: "audio", side: "right", content: audioURL, time: getCurrentTimeString() };
           sendMessage(newMessage);
         }
         mediaRecorder.ondataavailable = (e) => {
@@ -130,9 +127,7 @@ export default function Chat() {
   }
 
   const handleFile = () => {
-    var today = new Date();
-    let newTime = today.getHours() + ':' + today.getMinutes() + ":" + today.getSeconds();
-    let newMessage = { type: fileType, side: "right", content: file, time: newTime };
+    let newMessage = { type: fileType, side: "right", content: file, time: getCurrentTimeString() };
     let conts = chats;
     let newContact = chats.at(currChat);
     let history = newContact.messageHistory;
@@ -143,10 +138,9 @@ export default function Chat() {
     setShowFileUp(false);
   }
 
+
   const sendHeart = () => {
-    var today = new Date();
-    let newTime = today.getHours() + ':' + today.getMinutes() + ":" + today.getSeconds();
-    let newMessage = { type: "text", side: "right", content: "♥", time: newTime };
+    let newMessage = { type: "text", side: "right", content: "♥", time: getCurrentTimeString() };
     sendMessage(newMessage);
 
   }
@@ -195,17 +189,7 @@ export default function Chat() {
     if (users.has(username.value)) {
       setShow(false)
       let hisHistory = []
-      var today = new Date();
-      let hour = today.getHours();
-      let min = today.getMinutes();
-      let sec = today.getSeconds();
-      if (hour < 10)
-        hour = "0" + today.getHours();
-      if (min < 10)
-        min = "0" + today.getMinutes();
-      if (sec < 10)
-        sec = "0" + today.getSeconds();
-      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: hour + ':' + min + ':' + sec, messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
+      let newChatWithContact = { num: chats.length, name: username.value, img: users.get(username.value).at(2), time: getCurrentTimeString(), messageHistory: hisHistory, nickname: users.get(username.value).at(1) };
       let conts = chats;
       conts.unshift(newChatWithContact)
       userIsExist()
@@ -379,12 +363,8 @@ export default function Chat() {
   );
 }
 
-
-
-const getMessage = () => {
+const getCurrentTimeString = () =>{
   var today = new Date();
-  let message = document.getElementById("chatIn").value;
-  document.getElementById("chatIn").value = '';
   let hour = today.getHours();
   let min = today.getMinutes();
   let sec = today.getSeconds();
@@ -394,7 +374,13 @@ const getMessage = () => {
     min = "0" + today.getMinutes();
   if (sec < 10)
     sec = "0" + today.getSeconds();
-  let newMessage = { type: "text", side: "right", content: message, time: hour + ':' + min + ':' + sec };
+    return hour + ':' + min + ":" + sec;
+}
+
+const getMessage = () => {
+  let message = document.getElementById("chatIn").value;
+  document.getElementById("chatIn").value = '';
+  let newMessage = { type: "text", side: "right", content: message, time: getCurrentTimeString() };
   return newMessage;
 }
 

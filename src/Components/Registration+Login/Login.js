@@ -52,7 +52,7 @@ export default function Chat() {
                         Submit
             </Button>
             <br />
-            <Link to="/Register" style={{ marginLeft: "-60%" }}>Not Registered?</Link>
+            <Link to="/Register">Not Registered?</Link>
             <Alert show={accessSuccess} onClose={() => ( setSuccess(false))} variant="light" dismissible>
                 <Alert.Heading>Access Granted!</Alert.Heading>
             </Alert>

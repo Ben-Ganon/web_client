@@ -29,8 +29,8 @@ export default function Message(props) {
       return (
         <div class="row no-gutters">
           <div class="col-md-auto">
-            <div class="chat-bubble--left">
-              <img src={props.content}/>
+            <div style={{maxWidth: "30%"}} class="chat-bubble--left">
+              <img className="image-container"src={props.content}/>
               <small>{props.time.substr(0, 5)}</small>
             </div>
           </div>
@@ -41,7 +41,7 @@ export default function Message(props) {
         <div class="row justify-content-end ml-auto">
           <div class="col-auto">
           <div class="chat-bubble--right">
-            <img className="image-container" src={props.content} alt="preview"/>
+            <img style={{maxWidth: "30%"}} className="image-container" src={props.content} alt="preview"/>
             <br/> 
             <small>{props.time.substr(0, 5)}</small>
             </div>
@@ -85,8 +85,8 @@ export default function Message(props) {
         <div class="row no-gutters">
           <div class="col-md-auto">
             <div class="chat-bubble--left">
-              <video className="image-container" src={props.content} width="320" height="240" controls/>
-              <small>{props.time}</small>
+              <video className="image-container" src={props.content} controls/>
+              <small>{props.time.substr(0, 5)}</small>
             </div>
           </div>
         </div>
@@ -96,9 +96,9 @@ export default function Message(props) {
         <div class="row justify-content-end ml-auto">
           <div class="col-auto">
           <div class="chat-bubble--right">
-            <video className="image-container" src={props.content} width="450" height="200" controls/>
+            <video className="image-container" src={props.content} controls/>
             <br/> 
-            <small>{props.time}</small>
+            <small>{props.time.substr(0, 5)}</small>
             </div>
           </div>
         </div>

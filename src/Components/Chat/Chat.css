@@ -81,6 +81,8 @@ input {
   animation: fadeIn 1s ease-in;
   word-break: normal;
   float: right;
+  max-width: 70%;
+
 }
 
 .chat-bubble--left {
@@ -91,6 +93,8 @@ input {
   position: relative;
   animation: fadeIn 1s ease-in;
   word-break: normal;
+  float: left;
+  max-width: 50%;
 
 }
 
@@ -142,8 +146,12 @@ input {
 .image-container{
   max-width: 95%;  
   position: relative;
+  padding: 5px;
   float: top;
   float: right;
+  margin-bottom: 5px;
+  max-height: 80%;
+  
 }
 
 .chat-box-tray {

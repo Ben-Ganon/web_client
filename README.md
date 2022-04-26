@@ -8,6 +8,10 @@ Libraries we used: react-bootstrap and react-router.
 
 To run the code - simple write "npm start" 
 
+Notice the adding photo method in the chat ,is also adding vid.
+
+Notice we also did a chat SORTER according to the last massage sended.
+
 ##important: 
   due to a bug with github, Sagiv's commits to the project appear as 'your name'.
   we could not find this issue online to fix it, please be considerate of this when looking at commit history. 

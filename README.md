@@ -24,6 +24,7 @@ The chat that has the most recent message will show up on the top of the chat li
   due to a bug with github, Sagiv's commits to the project appear as 'your name'.
   we could not find this issue online to fix it, please be considerate of this when looking at commit history. 
 
+To add users to your chat you can add one of this users - Uri, Omri, Sahar.
 
 First User:
 
